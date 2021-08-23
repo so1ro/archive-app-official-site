@@ -5,7 +5,7 @@ export const bg_color_nav_top = { l: "rgba(255,255,255,0.68)", d: "rgb(27,39,47,
 export const text_color = { l: "gray.600", d: "white" }
 export const text_humble_color = { l: "#585858", d: "#aaa" }
 export const text_BW = { l: "black", d: "white" }
-export const highlight_color = { l: "#e63946", d: "#f79f22" }
+export const highlight_color = { l: "#f69957", d: "#f69957" }
 export const card_background_color = { l: "#fff", d: "#263743" }
 export const border_color = { l: "#ddd", d: "#263743" }
 

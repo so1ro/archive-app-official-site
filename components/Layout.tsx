@@ -23,7 +23,8 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <meta property="og:title" content={currentHeadData.title} key="title" />
                 {/* <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' /> */}
                 <meta name="viewport" content="initial-scale=1.0, width=device-width, viewport-fit=cover" />
-                <link rel="preload" href="/fonts/RocknRollOne-Regular.woff2" as="font" crossOrigin="" />
+                <link rel="preload" href="/fonts/Baskervville-Regular.woff2" as="font" crossOrigin="" />
+                <link rel="preload" href="/fonts/NotoSerifJP-Medium-Alphabetic.woff2" as="font" crossOrigin="" />
             </Head>
             <Flex flexDirection="column" minH="100vh" bg={useColorModeValue(bg_color.l, bg_color.d)}>
                 <Nav />
@@ -36,14 +37,9 @@ export default function Layout({ children }: { children: ReactNode }) {
 }
 
 const headData = [
-    { path: '', title: 'スーツ' },
-    { path: 'archive', title: 'アーカイブ | スーツ' },
-    { path: 'youtube', title: 'YouTube | スーツ' },
-    { path: 'twitter', title: 'ツイッター | スーツ' },
-    { path: 'instagram', title: 'インスタグラム | スーツ' },
-    { path: 'account', title: 'アカウント | スーツ' },
-    { path: 'facebook', title: 'Facebook | スーツ' },
-    { path: 'contact', title: 'お問い合わせ | スーツ' },
-    { path: 'contact_success', title: 'お問い合わせ | スーツ' },
-    { path: '404', title: '404 | スーツ' },
+    { path: '', title: 'Archive app' },
+    { path: 'archive', title: 'アーカイブ | Archive app' },
+    { path: 'contact', title: 'お問い合わせ | Archive app' },
+    { path: 'contact_success', title: 'お問い合わせ | Archive app' },
+    { path: '404', title: '404 | Archive app' },
 ]

@@ -33,7 +33,7 @@ const theme = extendTheme({
                 textDecoration: "none"
             },
             "a.active": {
-                color: props.colorMode === "dark" ? "#F79F22" : "#E63946",
+                color: props.colorMode === "dark" ? "#f69957" : "#f69957",
             },
             "a:hover": {
                 textDecoration: "none!important",
@@ -44,8 +44,8 @@ const theme = extendTheme({
         }),
     },
     fonts: {
-        body: `"RocknRollOne-Regular"`,
-        heading: `"RocknRollOne-Regular"`,
+        body: `"Baskervville-Regular, NotoSerifJP-Medium-Alphabetic"`,
+        heading: `"Baskervville-Regular, NotoSerifJP-Medium-Alphabetic"`,
     },
     fontWeights: {
         normal: 400,

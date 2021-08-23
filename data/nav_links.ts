@@ -4,10 +4,7 @@ export const nav_links: {
     root: string,
     text: string
 }[] = [
-        { key: "0", href: "/", root: "", text: "トップ" },
-        { key: "1", href: "/archive", root: "archive", text: "アーカイブ" },
-        { key: "2", href: "/youtube/all", root: "youtube", text: "YouTube" },
-        { key: "3", href: "/twitter", root: "twitter", text: "ツイッター" },
-        { key: "4", href: "/instagram", root: "instagram", text: "インスタグラム" },
-        { key: "5", href: "/contact", root: "contact", text: "お問い合わせ" },
+        { key: "0", href: "/", root: "", text: "Creator" },
+        { key: "1", href: "/developer", root: "developer", text: "Developer" },
+        { key: "2", href: "/contact", root: "contact", text: "お問い合わせ" },
     ]
