@@ -16,7 +16,7 @@ export default function PageShell(
 
     return (
         <Box bg={bgColor} flexGrow={1} pb={10}>
-            <Container maxW='1000px'>
+            <Container maxW={{ base: '1000px', '2xl': '1148px' }}>
                 <VStack py={customPT ?? { base: 12, lg: 24 }} pb={{ base: 12, lg: 24 }} spacing={customSpacing ?? { base: 24, lg: 32 }}>
                     {children}
                 </VStack>
