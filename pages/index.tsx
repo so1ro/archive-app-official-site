@@ -5,11 +5,15 @@ import { GetStaticProps } from "next"
 import { fetchContentful } from "@/hook/contentful"
 import { query_allHeroImg, query_topIntro, query_topShop } from "@/hook/contentful-queries"
 
-import { Container, VStack } from "@chakra-ui/react"
+import { Box, Container, VStack } from "@chakra-ui/react"
 import TopIntro from '@/components/TopIntro'
 import TopShop from '@/components/TopShop'
 import PageShell from '@/components/PageShell'
 import { dailyNum } from '@/utils/helpers'
+
+import ja from '@/data/ja'
+import en from '@/data/en'
+import { useRouter } from 'next/router'
 
 export default function Home(
   {
@@ -22,12 +26,17 @@ export default function Home(
     productTextImage: TopShopTextImage[]
   }) {
 
+  const router = useRouter()
+  const { locale } = router
+  const t = locale === 'en' ? en : ja
+
   const { user, error, isLoading } = useUser()
 
   return (
     <>
       {/* <Hero todayImgPair={todayImgPair} /> */}
       <PageShell customPT={{ base: 24, lg: 32 }} customSpacing={null} >
+        <Box>{t.title}</Box>
         <TopIntro />
       </PageShell>
     </>

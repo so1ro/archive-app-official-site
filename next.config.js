@@ -8,12 +8,20 @@ const withPWA = require('next-pwa')
 //     pwa: {
 //         dest: 'public'
 //     },
+// i18n: {
+//     locales: ['en', 'ja'],
+//     defaultLocale: 'en',
+// },
 // })
 
 // Develop without SW (Service Worker)
 module.exports = {
     images: {
         domains: ['images.ctfassets.net', 'pbs.twimg.com', 'abs.twimg.com', 'i.ytimg.com'],
+    },
+    i18n: {
+        locales: ['en', 'ja'],
+        defaultLocale: 'en',
     },
 }
 
