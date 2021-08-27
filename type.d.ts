@@ -1,17 +1,7 @@
-interface UserMetadataContextInterface {
-  User_Detail: object | null;
-  isMetadataLoading: boolean | null;
-  subscription_state: string | null;
-  Subscription_Detail: Subscription_Detail_Interface;
-  error_metadata: string | null;
-  isBeforeCancelDate: boolean | null;
-  temporaryPaidCheck: boolean | null;
-  // setUserDetail:any, 
-  // setStripeCustomerDetail:any, 
-  // setErrorMetadata:any, 
-  // setIsBeforeCancelDate:any, 
-  // setIsLoadingMetadata: ({ isLoading_metadata: boolean }) => void;
-  setTemporaryPaidCheck: ({ setTemporaryPaidCheck: boolean }) => void;
+interface topPlanText {
+  plan01?: object
+  plan02?: object
+  option?: object
 }
 interface AllPrices {
   id: string | null;
