@@ -1,5 +1,4 @@
-import React from "react"
-import dynamic from 'next/dynamic'
+import React from 'react'
 import { AppProps } from 'next/app'
 
 import { useEffect } from 'react'
@@ -14,9 +13,9 @@ import Layout from '@/components/Layout'
 import SimpleReactLightbox from 'simple-react-lightbox-pro'
 import "focus-visible/dist/focus-visible"
 
-// import '@/styles/globals.css'
-import '@/styles/font.css'
 import theme from '@/styles/themes'
+import "@fontsource/noto-serif-jp/700.css"
+import "@fontsource/baskervville/400.css"
 
 function App({ Component, pageProps }: AppProps) {
 
@@ -31,9 +30,7 @@ function App({ Component, pageProps }: AppProps) {
     function onRouteChangeComplete() { Fathom.trackPageview() }
     router.events.on('routeChangeComplete', onRouteChangeComplete)
 
-    return () => {
-      router.events.off('routeChangeComplete', onRouteChangeComplete)
-    }
+    return () => { router.events.off('routeChangeComplete', onRouteChangeComplete) }
   }, [])
   // Fathom
 

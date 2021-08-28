@@ -14,6 +14,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
     const router = useRouter()
     const currentHeadData = headData.find(data => data.path === router.pathname.split('/')[1]) ?? { path: '404', title: '404 | スーツ' }
+    const { locale } = router
 
     return (
         <>
@@ -23,10 +24,10 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <meta property="og:title" content={currentHeadData.title} key="title" />
                 {/* <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' /> */}
                 <meta name="viewport" content="initial-scale=1.0, width=device-width, viewport-fit=cover" />
-                <link rel="preload" href="/fonts/Baskervville-Regular.woff2" as="font" crossOrigin="" />
-                <link rel="preload" href="/fonts/NotoSerifJP-Medium-Alphabetic.woff2" as="font" crossOrigin="" />
             </Head>
-            <Flex flexDirection="column" minH="100vh" bg={useColorModeValue(bg_color.l, bg_color.d)}>
+            <Flex flexDirection="column" minH="100vh"
+                bg={useColorModeValue(bg_color.l, bg_color.d)}
+                className={locale === 'en' ? 'english_container' : 'japanese_container'}>
                 <Nav />
                 <NavModalSPTB />
                 <Flex w="100%" flexGrow={1} ml="auto" mr="auto" direction="column">{children}</Flex>

@@ -14,7 +14,7 @@ export default function Plan({ badge, title, text }: { badge?: string, title?: s
 					color={useColorModeValue(text_color.d, text_color.l)}>{badge}</Flex>
 				<Box fontSize='lg' fontWeight='bold'>{title}</Box>
 			</Stack>
-			<Text lineHeight={8} fontFamily='NotoSerifJP-Medium-Alphabetic'>{text}</Text>
+			<Text lineHeight={8}>{text}</Text>
 		</Box>
 	)
 }

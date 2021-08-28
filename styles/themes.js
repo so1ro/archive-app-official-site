@@ -38,19 +38,16 @@ const theme = extendTheme({
             "a:hover": {
                 textDecoration: "none!important",
             },
+            "div.english_container": {
+                fontFamily: "Baskervville",
+            },
+            "div.japanese_container": {
+                fontFamily: "Noto Serif JP",
+            },
             // "*:focus": {
             //     boxShadow: "none!important" // Delete Blue border from all clickable elements
             // }
         }),
-    },
-    fonts: {
-        body: `"Baskervville-Regular, NotoSerifJP-Medium-Alphabetic"`,
-        heading: `"Baskervville-Regular, NotoSerifJP-Medium-Alphabetic"`,
-    },
-    fontWeights: {
-        normal: 400,
-        medium: 600,
-        bold: 700
     },
 });
 
