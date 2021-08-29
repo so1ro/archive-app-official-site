@@ -10,11 +10,26 @@ export const maxImportContent = 1000
 // type.d.tsに Type definition として、下記反映すること
 export const query_archiveTopPlan =
   `{
-    archiveTopPlan(id : "7jI2eBEKsn4DtCAyywY5O2"){
-      sys{
-        id
+    archiveTopPlanCollection {
+      items {
+        sys {
+          id
+        }
+        text
       }
-      text
     }
   }
+`
+
+export const query_archiveTopPhilosophy =
+  `{
+    archiveAppTopPhilosophyCollection{
+      items{
+        sys{
+          id
+        }
+        philosophy
+      }
+    }
+}
 `

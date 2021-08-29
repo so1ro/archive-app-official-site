@@ -14,8 +14,13 @@ import SimpleReactLightbox from 'simple-react-lightbox-pro'
 import "focus-visible/dist/focus-visible"
 
 import theme from '@/styles/themes'
+import "@fontsource/noto-serif-jp/400.css"
 import "@fontsource/noto-serif-jp/700.css"
-import "@fontsource/baskervville/400.css"
+import "@fontsource/noto-serif-jp/900.css"
+import "@fontsource/merriweather/400.css"
+import "@fontsource/merriweather/700.css"
+import "@fontsource/merriweather/900.css"
+import "@fontsource/sacramento/400.css"
 
 function App({ Component, pageProps }: AppProps) {
 

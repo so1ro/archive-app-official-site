@@ -42,7 +42,7 @@ export default function Nav() {
             borderBottom={(!isTop && colorMode === 'dark') ? `1px #2F4351 solid` : 0}
         >
             <Stack spacing={4} isInline alignItems="center">
-                <NextLink href={'/'} passHref><Link><Text as="h1" fontSize={["lg", "xl", "2xl"]}>Archive app</Text></Link></NextLink>
+                <NextLink href={'/'} passHref><Link><Text as="h1" fontSize={["2xl", "2xl", "3xl"]} className='logo'>Archive app</Text></Link></NextLink>
             </Stack>
             <Flex alignItems="center">
                 <NavLinks />

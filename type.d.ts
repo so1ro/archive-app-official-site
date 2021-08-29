@@ -3,6 +3,12 @@ interface topPlanText {
   plan02?: object
   option?: object
 }
+interface topPhilosophyText {
+  en?: string[]
+  ja?: string[]
+}
+
+////////
 interface AllPrices {
   id: string | null;
   nickname: string | null;

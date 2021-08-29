@@ -1,20 +1,27 @@
 import { highlight_color, text_color } from "@/styles/colorModeValue"
 import { Box, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/react"
+import { useMediaQuery } from '@/utils/useMediaQuery'
 
 export default function Plan({ badge, title, text }: { badge?: string, title?: string, text?: string }) {
+
+	const isLargerThan600 = useMediaQuery("(min-width: 600px)")
+
 	return (
 		<Box>
-			<Stack direction='row' spacing={5} mb={8}>
+			<Stack direction={isLargerThan600 ? 'row' : 'column'} spacing={isLargerThan600 ? 6 : 2} mb={8}>
 				<Flex
 					bgColor={useColorModeValue(highlight_color.d, highlight_color.l)}
 					borderRadius={6}
 					px={4} py={0}
-					fontSize='xs'
+					fontSize={['sm', 'sm', 'md']}
 					align='center'
-					color={useColorModeValue(text_color.d, text_color.l)}>{badge}</Flex>
-				<Box fontSize='lg' fontWeight='bold'>{title}</Box>
+					color={useColorModeValue(text_color.d, text_color.l)}
+					w='fit-content'>
+					{badge}
+				</Flex>
+				<Box fontSize={['xl', 'xl', '2xl']} fontWeight='bold'>{title}</Box>
 			</Stack>
-			<Text lineHeight={8}>{text}</Text>
+			<Text lineHeight={8} fontSize={['md', 'md', 'lg']} fontWeight='normal'>{text}</Text>
 		</Box>
 	)
 }

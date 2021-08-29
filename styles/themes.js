@@ -16,6 +16,17 @@ const theme = extendTheme({
     breakpoints,
     initialColorMode: "light",
     useSystemColorMode: false,
+    fontWeights: {
+        hairline: 100,
+        thin: 200,
+        light: 300,
+        normal: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        extrabold: 800,
+        black: 900,
+    },
     styles: {
         global: (props) => ({
             html: {
@@ -33,16 +44,20 @@ const theme = extendTheme({
                 textDecoration: "none"
             },
             "a.active": {
-                color: props.colorMode === "dark" ? "#f69957" : "#f69957",
+                color: props.colorMode === "dark" ? "#f57056" : "#f57056",
             },
             "a:hover": {
                 textDecoration: "none!important",
             },
             "div.english_container": {
-                fontFamily: "Baskervville",
+                fontFamily: "Merriweather",
+                letterSpacing: 1.2,
             },
             "div.japanese_container": {
                 fontFamily: "Noto Serif JP",
+            },
+            ".logo": {
+                fontFamily: "Sacramento",
             },
             // "*:focus": {
             //     boxShadow: "none!important" // Delete Blue border from all clickable elements
