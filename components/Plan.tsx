@@ -14,6 +14,7 @@ export default function Plan({ badge, title, text }: { badge?: string, title?: s
 					borderRadius={6}
 					px={4} py={0}
 					fontSize={['sm', 'sm', 'md']}
+					fontWeight='semibold'
 					align='center'
 					color={useColorModeValue(text_color.d, text_color.l)}
 					w='fit-content'>

@@ -16,17 +16,6 @@ const theme = extendTheme({
     breakpoints,
     initialColorMode: "light",
     useSystemColorMode: false,
-    fontWeights: {
-        hairline: 100,
-        thin: 200,
-        light: 300,
-        normal: 400,
-        medium: 500,
-        semibold: 600,
-        bold: 700,
-        extrabold: 800,
-        black: 900,
-    },
     styles: {
         global: (props) => ({
             html: {
@@ -49,11 +38,11 @@ const theme = extendTheme({
             "a:hover": {
                 textDecoration: "none!important",
             },
-            "div.english_container": {
+            ".english_container": {
                 fontFamily: "Merriweather",
                 letterSpacing: 1.2,
             },
-            "div.japanese_container": {
+            ".japanese_container": {
                 fontFamily: "Noto Serif JP",
             },
             ".logo": {
@@ -63,6 +52,17 @@ const theme = extendTheme({
             //     boxShadow: "none!important" // Delete Blue border from all clickable elements
             // }
         }),
+    },
+    fontWeights: {
+        hairline: 100,
+        thin: 200,
+        light: 300,
+        normal: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        extrabold: 800,
+        black: 900,
     },
 });
 

@@ -7,6 +7,57 @@ interface topPhilosophyText {
   en?: string[]
   ja?: string[]
 }
+interface topConditionText {
+  title?: {
+    en?: string
+    ja?: string
+  }
+  principal?: {
+    copy?: {
+      en?: string
+      ja?: string
+    }
+    en?: string[]
+    ja?: string[]
+  }
+  plan01?: {
+    copy?: {
+      en?: string
+      ja?: string
+    }
+    en?: string[]
+    ja?: string[]
+  },
+  plan02?: {
+    copy?: {
+      en?: string
+      ja?: string
+    }
+    en?: string[]
+    ja?: string[]
+  }
+}
+
+interface topPlan1ChartText {
+  en: {
+    publishNameClassic?: string
+    publishNameModern?: string
+    you?: string
+    publisher?: string
+    distributor?: string
+    store?: string
+    annotation?: string
+  },
+  ja: {
+    publishNameClassic?: string
+    publishNameModern?: string
+    you?: string
+    publisher?: string
+    distributor?: string
+    store?: string
+    annotation?: string
+  }
+}
 
 ////////
 interface AllPrices {

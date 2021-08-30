@@ -18,6 +18,5 @@ export default function Philosophy({ text }: { text?: string[] }) {
 			whiteSpace='pre-wrap'>
 			{newLineText.map((p, i) => <ListItem key={i} fontWeight='bold'>{p}</ListItem>)}
 		</UnorderedList>
-
 	)
 }

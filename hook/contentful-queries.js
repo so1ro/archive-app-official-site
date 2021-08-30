@@ -33,3 +33,29 @@ export const query_archiveTopPhilosophy =
     }
 }
 `
+
+export const query_archiveTopCondition =
+  `{
+    archiveAppTopConditionCollection {
+      items {
+        sys {
+          id
+        }
+        condition
+      }
+    }
+  }
+`
+
+export const query_archiveAppTopChartText =
+  `{
+    archiveAppTopPlan1ChartCollection {
+      items {
+        sys {
+          id
+        }
+        chartText
+      }
+    }
+  }
+`
