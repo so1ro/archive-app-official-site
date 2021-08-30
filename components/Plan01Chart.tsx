@@ -22,7 +22,7 @@ export default function Plan01Chart({ chartText }) {
 				<Box alignSelf='end'>{chartText.publishNameModern}</Box>
 				<Flex align='flex-end' mb={2}>
 					<Box w='90%' ><Text fontSize={fontSize} mb={1} textAlign='center'>{chartText.you}</Text><Box h='6px' bgColor='#F57056' /></Box>
-					<Box flexGrow={1} ><Text fontSize={fontSize} mb={1} textAlign='center'>*</Text><Box h='6px' bgColor='#4C2816' /></Box>
+					<Box flexGrow={1} ><Text fontSize={fontSize} mb={1} textAlign='center'>*</Text><Box h='6px' bgColor='#628B48' /></Box>
 				</Flex>
 			</Grid>
 			<Box textAlign='right' fontSize='sm'>{chartText.annotation}</Box>
