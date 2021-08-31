@@ -21,7 +21,7 @@ export const query_archiveTopPlan =
   }
 `
 
-export const query_archiveTopPhilosophy =
+export const query_topPhilosophy =
   `{
     archiveAppTopPhilosophyCollection{
       items{
@@ -34,7 +34,7 @@ export const query_archiveTopPhilosophy =
 }
 `
 
-export const query_archiveTopCondition =
+export const query_topCondition =
   `{
     archiveAppTopConditionCollection {
       items {
@@ -47,7 +47,7 @@ export const query_archiveTopCondition =
   }
 `
 
-export const query_archiveAppTopChartText =
+export const query_topChartText =
   `{
     archiveAppTopPlan1ChartCollection {
       items {
@@ -55,6 +55,19 @@ export const query_archiveAppTopChartText =
           id
         }
         chartText
+      }
+    }
+  }
+`
+
+export const query_topSigninApplyAnnotation =
+  `{
+    archiveAppTopSignInApplyCollection{
+      items{
+        sys{
+          id
+        }
+        signinApply
       }
     }
   }

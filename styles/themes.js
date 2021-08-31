@@ -33,7 +33,7 @@ const theme = extendTheme({
                 textDecoration: "none"
             },
             "a.active": {
-                color: props.colorMode === "dark" ? "#f57056" : "#f57056",
+                color: props.colorMode === "light" ? "#f57056" : "#F7E420",
             },
             "a:hover": {
                 textDecoration: "none!important",

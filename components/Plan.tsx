@@ -10,7 +10,7 @@ export default function Plan({ badge, title, text }: { badge?: string, title?: s
 		<Box>
 			<Stack direction={isLargerThan600 ? 'row' : 'column'} spacing={isLargerThan600 ? 6 : 2} mb={8}>
 				<Flex
-					bgColor={useColorModeValue(highlight_color.d, highlight_color.l)}
+					bgColor={useColorModeValue(highlight_color.l, highlight_color.d)}
 					borderRadius={6}
 					px={4} py={0}
 					fontSize={['sm', 'sm', 'md']}

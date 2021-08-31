@@ -40,6 +40,7 @@ interface topConditionText {
 
 interface topPlan1ChartText {
   en: {
+    title?: string
     publishNameClassic?: string
     publishNameModern?: string
     you?: string
@@ -49,6 +50,7 @@ interface topPlan1ChartText {
     annotation?: string
   },
   ja: {
+    title?: string
     publishNameClassic?: string
     publishNameModern?: string
     you?: string
@@ -57,6 +59,11 @@ interface topPlan1ChartText {
     store?: string
     annotation?: string
   }
+}
+
+interface topSigninApplyAnnotation {
+  en?: string
+  ja?: string
 }
 
 ////////

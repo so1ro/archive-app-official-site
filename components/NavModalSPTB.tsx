@@ -25,7 +25,7 @@ import { nav_link_variants } from '@/components/Chakra_Framer/variants'
 
 import Btn_hamburg from '@/components/BtnHamburg'
 import SnsIcons from '@/components/SnsIcons'
-import { bg_color, highlight_color, text_color } from '@/styles/colorModeValue'
+import { bg_color, text_color, text_highlight_color } from '@/styles/colorModeValue'
 import { nav_links } from '@/data/nav_links'
 import { Toast } from '@/components/Toast'
 
@@ -35,7 +35,7 @@ export default function NavModalSPTB() {
     const { user, error, isLoading } = useUser()
     const toast = useToast()
     const borderColor = useColorModeValue(text_color.l, text_color.d)
-    const highlighColor = useColorModeValue(highlight_color.l, highlight_color.d)
+    const highlighColor = useColorModeValue(text_highlight_color.l, text_highlight_color.d)
 
     return (
         <Box d={{ base: "block", lg: "none" }}>

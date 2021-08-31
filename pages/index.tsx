@@ -6,9 +6,10 @@ import { GetStaticProps } from "next"
 import { fetchContentful } from "@/hook/contentful"
 import {
   query_archiveTopPlan,
-  query_archiveTopPhilosophy,
-  query_archiveTopCondition,
-  query_archiveAppTopChartText
+  query_topPhilosophy,
+  query_topCondition,
+  query_topChartText,
+  query_topSigninApplyAnnotation
 } from "@/hook/contentful-queries"
 
 import { Box, Container, VStack } from "@chakra-ui/react"
@@ -19,11 +20,15 @@ import { dailyNum } from '@/utils/helpers'
 import Philosophy from '@/components/Philosophy'
 import Condition from '@/components/Condtion'
 import Plan01Chart from '@/components/Plan01Chart'
+import SigninApplyButton from '@/components/SigninApplyButton'
 
 
 export default function Home(
-  { plan, philosophy, condition, chartText }:
-    { plan: topPlanText, philosophy: topPhilosophyText, condition: topConditionText, chartText: topPlan1ChartText }
+  { plan, philosophy, condition, chartText, applyAnnotation }:
+    {
+      plan: topPlanText, philosophy: topPhilosophyText, condition: topConditionText,
+      chartText: topPlan1ChartText, applyAnnotation: topSigninApplyAnnotation
+    }
 ) {
 
   const router = useRouter()
@@ -42,6 +47,7 @@ export default function Home(
         </Box>
         <Plan badge={plan.plan02[locale].badge} title={plan.plan02[locale].title} text={plan.plan02[locale].text} />
         <Plan badge={plan.option[locale].badge} title={plan.option[locale].title} text={plan.option[locale].text} />
+        <SigninApplyButton buttonText={locale === 'en' ? 'Sing in / Apply' : 'サインイン・お申し込み'} annotation={applyAnnotation[locale]} />
         <Condition condition={condition} />
       </PageShell>
     </>
@@ -51,21 +57,24 @@ export default function Home(
 export const getStaticProps: GetStaticProps = async () => {
   // get Archivce data from Contentful
   const { archiveTopPlanCollection: { items: planText } } = await fetchContentful(query_archiveTopPlan)
-  const { archiveAppTopPhilosophyCollection: { items: philosophyText } } = await fetchContentful(query_archiveTopPhilosophy)
-  const { archiveAppTopConditionCollection: { items: conditionText } } = await fetchContentful(query_archiveTopCondition)
-  const { archiveAppTopPlan1ChartCollection: { items: plan1ChartText } } = await fetchContentful(query_archiveAppTopChartText)
+  const { archiveAppTopPhilosophyCollection: { items: philosophyText } } = await fetchContentful(query_topPhilosophy)
+  const { archiveAppTopConditionCollection: { items: conditionText } } = await fetchContentful(query_topCondition)
+  const { archiveAppTopPlan1ChartCollection: { items: plan1ChartText } } = await fetchContentful(query_topChartText)
+  const { archiveAppTopSignInApplyCollection: { items: applyAnnotationText } } = await fetchContentful(query_topSigninApplyAnnotation)
 
   const plan = planText[0].text
   const philosophy = philosophyText[0].philosophy
   const condition = conditionText[0].condition
   const chartText = plan1ChartText[0].chartText
+  const applyAnnotation = applyAnnotationText[0].signinApply.annotation
 
   return {
     props: {
       plan,
       philosophy,
       condition,
-      chartText
+      chartText,
+      applyAnnotation
     },
     revalidate: 30,
   }

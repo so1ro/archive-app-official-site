@@ -1,14 +1,18 @@
-
+import { useRouter } from 'next/router'
 import { Box, Button, HStack, Link, Text, useBreakpointValue, useColorMode, useToast, useColorModeValue } from '@chakra-ui/react'
-import { highlight_color } from '@/styles/colorModeValue'
+import { highlight_color, text_color, text_highlight_color } from '@/styles/colorModeValue'
 import { Toast } from '@/components/Toast'
 
 export default function UserLoginSignup() {
 
-    const highlighColor = useColorModeValue(highlight_color.l, highlight_color.d)
+    const textColor = useColorModeValue(text_color.d, text_color.l)
+    const highlighColor = useColorModeValue(text_highlight_color.l, text_highlight_color.d)
+    const bgColor = useColorModeValue(highlight_color.l, highlight_color.d)
     const buttonSize = useBreakpointValue({ base: 'xs', md: 'sm' })
     const { colorMode } = useColorMode()
     const toast = useToast()
+    const router = useRouter()
+    const { locale } = router
 
     return (
         <>
@@ -16,19 +20,25 @@ export default function UserLoginSignup() {
                 <Link fontSize={["10px", "11px"]}
                     href="/api/auth/login?param=signup"
                     lineHeight='14px'
+                    textAlign={locale === 'en' ? 'right' : 'left'}
+                    alignSelf={locale === 'en' ? 'flex-end' : 'center'}
                     onClick={() => {
                         toast({ duration: 3000, render: () => (<Toast text={"サインアップに移動中..."} />) })
-                    }}>初めての方は<br /><Text color={highlighColor}>サインアップ</Text>
+                    }}>
+                    <Text color={locale === 'en' ? highlighColor : ''}>{locale === 'en' ? 'Sing up' : '初めての方は'}</Text>
+                    <Text color={locale === 'en' ? '' : highlighColor}>{locale === 'en' ? 'or' : 'サインアップ'}</Text>
                 </Link>
                 <Link href="/api/auth/login"><Button
                     size={buttonSize}
+                    w={{ base: '66px', sm: '80px', md: '100px' }}
                     fontWeight='md'
-                    colorScheme='gray'
+                    color={textColor}
+                    bg={bgColor}
                     border="1px"
-                    borderColor={colorMode === 'light' ? "gray.300" : 'gray.600'}
+                    // borderColor={colorMode === 'light' ? "gray.300" : 'gray.600'}
                     onClick={() => {
                         toast({ duration: 3000, render: () => (<Toast text={"ログインに移動中..."} />) })
-                    }}>ログイン</Button></Link>
+                    }}>{locale === 'en' ? 'Login' : 'ログイン'}</Button></Link>
             </HStack>
         </>
     )

@@ -3,12 +3,15 @@ export const bg_color_content = { l: "#e9eef2", d: "#1b272f" }
 export const bg_color_nav = { l: "#ffffff", d: "#1b272f" }
 export const bg_color_nav_top = { l: "rgba(255,255,255,0.68)", d: "rgb(27,39,47, 0.86)" }
 export const text_color = { l: "gray.600", d: "white" }
-export const text_highlight_color = { l: "#F57056", d: "#F57056" }
+export const text_highlight_color = { l: "#F57056", d: "#F7E420" }
 export const text_humble_color = { l: "#585858", d: "#aaa" }
 export const text_BW = { l: "black", d: "white" }
-export const highlight_color = { l: "#f69957", d: "#f69957" }
+export const highlight_color = { l: "#f69957", d: "#F7E420" }
 export const card_background_color = { l: "#fff", d: "#263743" }
 export const border_color = { l: "#ddd", d: "#263743" }
+
+// Chart
+export const revenue_green_color = { l: "#628B48", d: "#69B578" }
 
 // price list
 export const price_card_color = { l: "#69b578", d: "#f79f22" }
