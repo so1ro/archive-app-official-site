@@ -9,7 +9,8 @@ import {
   query_topPhilosophy,
   query_topCondition,
   query_topChartText,
-  query_topSigninApplyAnnotation
+  query_topSigninApplyAnnotation,
+  query_topHeroText
 } from "@/hook/contentful-queries"
 
 import { Box, Container, VStack } from "@chakra-ui/react"
@@ -24,10 +25,10 @@ import SigninApplyButton from '@/components/SigninApplyButton'
 
 
 export default function Home(
-  { plan, philosophy, condition, chartText, applyAnnotation }:
+  { plan, philosophy, condition, chartText, applyAnnotation, heroText }:
     {
       plan: topPlanText, philosophy: topPhilosophyText, condition: topConditionText,
-      chartText: topPlan1ChartText, applyAnnotation: topSigninApplyAnnotation
+      chartText: topPlan1ChartText, applyAnnotation: topSigninApplyAnnotation, heroText: topHeroText
     }
 ) {
 
@@ -37,7 +38,7 @@ export default function Home(
 
   return (
     <>
-      {/* <Hero todayImgPair={todayImgPair} /> */}
+      <Hero heroText={heroText[locale]} />
       <Philosophy text={philosophy[locale]} />
       <PageShell customPT={{ base: 24, lg: 32 }} customSpacing={null} >
         <TopIntro />
@@ -61,12 +62,14 @@ export const getStaticProps: GetStaticProps = async () => {
   const { archiveAppTopConditionCollection: { items: conditionText } } = await fetchContentful(query_topCondition)
   const { archiveAppTopPlan1ChartCollection: { items: plan1ChartText } } = await fetchContentful(query_topChartText)
   const { archiveAppTopSignInApplyCollection: { items: applyAnnotationText } } = await fetchContentful(query_topSigninApplyAnnotation)
+  const { archiveAppTopHeroCollection: { items: heroTexts } } = await fetchContentful(query_topHeroText)
 
   const plan = planText[0].text
   const philosophy = philosophyText[0].philosophy
   const condition = conditionText[0].condition
   const chartText = plan1ChartText[0].chartText
   const applyAnnotation = applyAnnotationText[0].signinApply.annotation
+  const heroText = heroTexts[0].heroText
 
   return {
     props: {
@@ -74,7 +77,8 @@ export const getStaticProps: GetStaticProps = async () => {
       philosophy,
       condition,
       chartText,
-      applyAnnotation
+      applyAnnotation,
+      heroText
     },
     revalidate: 30,
   }

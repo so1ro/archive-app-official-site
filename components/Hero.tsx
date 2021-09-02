@@ -1,42 +1,33 @@
-import { Box, Container } from '@chakra-ui/react'
+import { Box, Container, useColorMode } from '@chakra-ui/react'
 import Image from 'next/image'
 import HeroSnsIcons from '@/components/HeroSnsIcons'
 import HeroArchiveLink from '@/components/HeroArchiveLink'
 import { useWindowSizeOrientation } from '@/utils/useWindowSize'
 import { useMediaQuery } from '@/utils/useMediaQuery'
+import { HeroWaveD, HeroWaveL } from '@/styles/icons'
 
-export default function Hero({ todayImgPair }) {
+export default function Hero({ heroText }) {
 
-    const { height: innerHeight } = useWindowSizeOrientation()
-    const isLargerThan992 = useMediaQuery("(min-width: 992px)")
+    const { colorMode } = useColorMode()
+    const isLargerThan1280 = useMediaQuery("(min-width: 1280px)")
 
     return (
-        <Box pos='relative'>
-            <Box>
-                {/* {todayImgPair.map((img, i) => ( */}
-                {!isLargerThan992 &&
-                    <Container h={`${innerHeight}px`} zIndex={'-1'}>
-                        <Image src={todayImgPair[0].url}
-                            layout="fill"
-                            objectFit="cover"
-                            quality={100}
-                            priority={true}
-                            alt='スーツ' />
-                    </Container>}
-                {isLargerThan992 &&
-                    <Container h={`${innerHeight}px`} zIndex={'-1'}>
-                        <Image src={todayImgPair[1].url}
-                            layout="fill"
-                            objectFit="cover"
-                            quality={100}
-                            priority={true}
-                            alt='スーツ' />
-                    </Container>}
-                {/* ))} */}
+        <Box pt={{ base: '80px', md: '160px' }}
+            pos='relative' overflow='hidden'
+            bg={`linear-gradient(180deg, rgba(255,255,255,0) ${colorMode === 'light' ? '60%' : '70%'}, rgba(${colorMode === 'light' ? '246,153,87' : '255,255,255'}, 0.24) 100%)`}>
+            <Box as='h2'
+                m='0 auto' maxW="1200px"
+                fontSize={{ base: 'xl', sm: '3xl', md: '48px', lg: '64px', '2xl': '72px' }}
+                fontWeight='semibold' textAlign={{ base: 'center', md: 'left' }}
+                whiteSpace='pre-wrap'
+                pb='160px' pl={{ base: 0, md: (!isLargerThan1280 ? 20 : 0) }}>
+                {heroText}
             </Box>
-            <HeroArchiveLink />
-            <HeroSnsIcons />
-        </Box>
+            <Box pos='relative' w='full' h='84px' minW='1440px' >
+                {colorMode === 'light' && <HeroWaveL w='full' p='absolute' />}
+                {colorMode === 'dark' && <HeroWaveD w='full' p='absolute' />}
+            </Box>
+        </Box >
     )
 }
 

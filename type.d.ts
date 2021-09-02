@@ -1,3 +1,7 @@
+interface topHeroText {
+  en?: string
+  ja?: string
+}
 interface topPlanText {
   plan01?: object
   plan02?: object

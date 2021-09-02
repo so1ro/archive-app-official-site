@@ -91,3 +91,18 @@ export const FavoriteHeartIcon = createIcon({
         <path d="M33,7c-3.42,0-6.44,1.646-9,4.896C21.44,8.646,18.42,7,15,7C8.935,7,4,11.935,4,18c0,5.752,7.011,12.306,13.791,18.644	c1.827,1.708,3.552,3.32,5.148,4.917C23.221,41.842,23.602,42,24,42s0.779-0.158,1.061-0.439c1.597-1.597,3.322-3.209,5.148-4.917	C36.989,30.306,44,23.752,44,18C44,11.935,39.065,7,33,7z M35.5,20.5h-2v2c0,0.828-0.671,1.5-1.5,1.5s-1.5-0.672-1.5-1.5v-2h-2	c-0.829,0-1.5-0.672-1.5-1.5s0.671-1.5,1.5-1.5h2v-2c0-0.828,0.671-1.5,1.5-1.5s1.5,0.672,1.5,1.5v2h2c0.829,0,1.5,0.672,1.5,1.5	S36.329,20.5,35.5,20.5z" fill="currentColor" />
     ),
 })
+
+
+export const HeroWaveL = (size) => (
+    <svg width="102%" height="84" pos='absolute' left='50%' transform='translateX(-51%)' viewBox="0 0 1440 84" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.213684L0 84.2137H1178H1440V80.1065C1353 82.8378 1265.66 84.2137 1178 84.2137C778.017 84.2137 384.707 55.5688 0 0.213684Z" fill="white" />
+    </svg>
+
+)
+
+export const HeroWaveD = (size) => (
+    <svg width="102%" height="84" pos='absolute' left='50%' transform='translateX(-51%)' viewBox="0 0 1440 84" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.213684L0 84.2137H1178H1440V80.1065C1353 82.8378 1265.66 84.2137 1178 84.2137C778.017 84.2137 384.707 55.5688 0 0.213684Z" fill="#1B272F" />
+    </svg>
+
+)

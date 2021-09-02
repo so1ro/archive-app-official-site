@@ -9,14 +9,14 @@ export default function Philosophy({ text }: { text?: string[] }) {
 
 	return (
 		<UnorderedList
-			px={6} py={12} spacing={5}
+			px={6} pt={24} pb={24} spacing={5}
 			listStyleType='none'
 			textAlign='center'
 			fontSize={['md', 'xl', '2xl']}
 			bgColor={useColorModeValue(bg_color_content.l, bg_color_content.d)}
 			marginInlineStart='none'
 			whiteSpace='pre-wrap'>
-			{newLineText.map((p, i) => <ListItem key={i} fontWeight='bold'>{p}</ListItem>)}
+			{newLineText.map((p, i) => <ListItem key={i} fontWeight='bold' as='h3'>{p}</ListItem>)}
 		</UnorderedList>
 	)
 }
