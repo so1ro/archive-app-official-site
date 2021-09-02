@@ -28,17 +28,17 @@ export default function UserLoginSignup() {
                     <Text color={locale === 'en' ? highlighColor : ''}>{locale === 'en' ? 'Sing up' : '初めての方は'}</Text>
                     <Text color={locale === 'en' ? '' : highlighColor}>{locale === 'en' ? 'or' : 'サインアップ'}</Text>
                 </Link>
-                <Link href="/api/auth/login"><Button
-                    size={buttonSize}
-                    w={{ base: '66px', sm: '80px', md: '100px' }}
-                    fontWeight='md'
-                    color={textColor}
-                    bg={bgColor}
-                    border="1px"
-                    // borderColor={colorMode === 'light' ? "gray.300" : 'gray.600'}
-                    onClick={() => {
-                        toast({ duration: 3000, render: () => (<Toast text={"ログインに移動中..."} />) })
-                    }}>{locale === 'en' ? 'Login' : 'ログイン'}</Button></Link>
+                <Link href="/api/auth/login">
+                    <Button
+                        size={buttonSize}
+                        w={{ base: '66px', sm: '80px', md: '100px' }}
+                        fontWeight='md' color={textColor}
+                        bg={bgColor} border="1px"
+                        _hover={{ bg: bgColor }}
+                        onClick={() => { toast({ duration: 3000, render: () => (<Toast text={"ログインに移動中..."} />) }) }}>
+                        {locale === 'en' ? 'Login' : 'ログイン'}
+                    </Button>
+                </Link>
             </HStack>
         </>
     )

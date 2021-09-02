@@ -34,6 +34,19 @@ const theme = extendTheme({
             },
             "a.active": {
                 color: props.colorMode === "light" ? "#f57056" : "#F7E420",
+                position: 'relative',
+            },
+            "a.active::before": {
+                content: '""',
+                display: 'block',
+                width: '3px',
+                height: '3px',
+                borderRadius: '50%',
+                position: 'absolute',
+                top: '-9%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: props.colorMode === "light" ? "#f57056" : "#F7E420",
             },
             "a:hover": {
                 textDecoration: "none!important",
@@ -47,6 +60,7 @@ const theme = extendTheme({
             },
             ".logo": {
                 fontFamily: "Sacramento",
+                letterSpacing: 1,
             },
             // "*:focus": {
             //     boxShadow: "none!important" // Delete Blue border from all clickable elements
