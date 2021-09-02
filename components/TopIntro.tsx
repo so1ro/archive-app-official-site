@@ -3,7 +3,7 @@ import Image from 'next/image'
 import NextLink from 'next/link';
 import { useColorMode, useColorModeValue } from "@chakra-ui/react"
 import { highlight_color } from '@/styles/colorModeValue';
-import VideoVimeoLT from './VideoVimeoLT';
+import VideoVimeoLT from '@/components/VideoVimeoLT';
 
 export default function TopIntro() {
     const avatarSize = { base: 36, lg: 48 }

@@ -10,6 +10,7 @@ import UserMenu from '@/components/UserMenu';
 import UserLoginSignup from '@/components/UserLoginSignup';
 import ColorModeButton from '@/components/ColorModeButton';
 import NextLink from 'next/link';
+import Language from '@/components/Language';
 
 
 export default function Nav() {
@@ -47,6 +48,7 @@ export default function Nav() {
             <Flex alignItems="center">
                 <NavLinks />
                 <Stack spacing={[2, 2, 4]} isInline align="center" ml={6}>
+                    <Language />
                     {isLoading ? '' : (user ? <UserMenu /> : <UserLoginSignup />)}
                     <ColorModeButton />
                 </Stack>
