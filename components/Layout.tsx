@@ -13,7 +13,7 @@ import Footer from '@/components/Footer';
 export default function Layout({ children }: { children: ReactNode }) {
 
     const router = useRouter()
-    const currentHeadData = headData.find(data => data.path === router.pathname.split('/')[1]) ?? { path: '404', title: '404 | スーツ' }
+    const currentHeadData = headData.find(data => data.path === router.pathname.split('/')[1]) ?? { path: '404', title: '404 | Archive app' }
     const { locale } = router
 
     return (
@@ -42,5 +42,6 @@ const headData = [
     { path: 'archive', title: 'アーカイブ | Archive app' },
     { path: 'contact', title: 'お問い合わせ | Archive app' },
     { path: 'contact_success', title: 'お問い合わせ | Archive app' },
+    { path: 'account', title: 'アカウント | Archive app' },
     { path: '404', title: '404 | Archive app' },
 ]

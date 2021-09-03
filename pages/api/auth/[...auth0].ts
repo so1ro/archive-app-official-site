@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 export default handleAuth({
     async login(req: NextApiRequest, res: NextApiResponse) {
         try {
-            const returnTo = req.query.param === 'signup' ? `/account` : `/archive`
+            const returnTo = `/account`
             await handleLogin(req, res, {
                 returnTo,
                 authorizationParams: { screen_hint: (req.query.param || null) }
