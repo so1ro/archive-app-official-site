@@ -14,6 +14,7 @@ import { Button, Code, Box, Grid, Center, Text, useToast, HStack, useColorModeVa
 import PageShell from '@/components/PageShell'
 import LoadingSpinner from '@/components/Spinner'
 import { bg_color, border_color } from '@/styles/colorModeValue'
+import ApplyForm from '@/components/ApplyForm'
 
 export default function Account({ allPrices, landingPageText }: { allPrices: AllPrices[], landingPageText: LandingPageText[], }) {
 
@@ -91,6 +92,7 @@ export default function Account({ allPrices, landingPageText }: { allPrices: All
         <Box w='full' maxW='640px'>
           Account
         </Box>
+        <ApplyForm />
       </PageShell>
     )
   }

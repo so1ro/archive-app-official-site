@@ -1,36 +1,38 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { loggerError_Serverside } from '@/utils/logger'
+import nodemailer from 'nodemailer'
 
-const contactApi = async (req: NextApiRequest, res: NextApiResponse) => {
+const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 
-		const contact = req.body
-		const finalContactData = {
-			...contact,
-			replyTo: process.env.CONTACT_EMAIL,
-			accessKey: process.env.STATIC_FORMS_ACCESS_KEY,
+		const mailData = {
+			from: req.body.email,
+			to: 'masamichi.kagaya.ap+archive-app-official@gmail.com',
+			subject: `Message From ${req.body.name}`,
+			text: req.body.message,
+			html: `<div><p>${req.body.plan}</p><p>${req.body.message}</p></div>`
 		}
+		console.log('mailData:', mailData)
+
+		const transporter = nodemailer.createTransport({
+			port: 465,
+			host: "smtp.gmail.com",
+			auth: {
+				user: process.env.TRANSIT_ADDRESS,
+				pass: process.env.SMTP_PASSWORD,
+			},
+			secure: true,
+		})
 
 		try {
-			const result = await fetch('https://api.staticforms.xyz/submit', {
-				method: 'POST',
-				body: JSON.stringify(finalContactData),
-				headers: { 'Content-Type': 'application/json' },
+			const result = await transporter.sendMail(mailData, function (err, info) {
+				if (err) {
+					res.status(400)
+					return res.send({ error: { message: err } })
+				}
+				else console.log(info)
 			})
-			const json = await result.json()
-
-			if (json.success) {
-				//成功したら json を return
-				return res.status(200).json(json)
-
-			} else {
-				res.status(400)
-				return res.send({
-					error: {
-						message: json.message,
-					}
-				})
-			}
+			res.status(200).send({ success: { message: 'mail was sent' } })
 
 		} catch (e) {
 			//// Logging ////
@@ -45,4 +47,4 @@ const contactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 }
 
-export default contactApi
+export default ContactApi
