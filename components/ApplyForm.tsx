@@ -1,24 +1,24 @@
 import Router from 'next/router'
 import { useState } from "react"
 import * as Yup from "yup"
-import { Formik, Field, Form, ErrorMessage, useField } from 'formik'
-import { FormikInput, FormikSelect, FormikTextArea } from '@/components/Formik/Fields'
+import { Formik, Form, } from 'formik'
+import { FormikInput, FormikSelect, FormikSubmitButton, FormikTextArea } from '@/components/Formik/Fields'
+import { useRouter } from 'next/router'
 
-import { Select } from "@chakra-ui/react"
+import { useColorModeValue } from "@chakra-ui/react"
 import { useToast } from "@chakra-ui/toast"
 import { Toast, ToastError } from '@/components/Toast'
+import { highlight_color } from '@/styles/colorModeValue'
 
 export default function ApplyForm(props) {
 
 	const [response, setResponse] = useState({ type: '', message: '', })
-
+	const highlightColor = useColorModeValue(highlight_color.l, highlight_color.d)
 	const toast = useToast()
+	const { locale } = useRouter()
 
 	// // Function
 	const handleSubmit = async (values) => {
-		// e.preventDefault()
-		console.log('values:', values)
-		console.log('Apply is working!!')
 
 		try {
 			const res = await fetch('/api/contact', {
@@ -58,67 +58,60 @@ export default function ApplyForm(props) {
 		}
 	}
 
-	// Component
-
-
 	return (
 		<>
-			<h1>Subscribe!</h1>
 			<Formik
 				initialValues={{
 					name: '',
-					// lastName: '',
 					email: '',
 					message: '',
 					plan: '',
-					// acceptedTerms: false, // added for our checkbox
-					// jobType: '', // added for our select
 				}}
 				validationSchema={Yup.object({
 					name: Yup.string()
 						.max(15, 'Must be 15 characters or less')
-						.required('Required'),
+						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					message: Yup.string()
 						.max(2000, 'Must be 2000 characters or less')
-						.required('Required'),
+						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					plan: Yup.string()
-						.required('Required'),
-					// lastName: Yup.string()
-					// 	.max(20, 'Must be 20 characters or less')
-					// 	.required('Required'),
+						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					email: Yup.string()
-						.email('Invalid email address')
-						.required('Required'),
-					// acceptedTerms: Yup.boolean()
-					// 	.required('Required')
-					// 	.oneOf([true], 'You must accept the terms and conditions.'),
-					// jobType: Yup.string()
-					// 	.oneOf(
-					// 		['designer', 'development', 'product', 'other'],
-					// 		'Invalid Job Type'
-					// 	)
-					// 	.required('Required'),
+						.email(`${locale === 'en' ? '* Invalid email address' : '※ 有効なメールアドレスをご記入ください。'}`)
+						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
+
 				})}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(() => {
 						handleSubmit(values)
-						alert(JSON.stringify(values, null, 2));
-						setSubmitting(false);
-					}, 400);
-				}}
-			>
-				<Form>
-					<FormikInput label="Name" name="name" type="text" />
-					<FormikInput label="Email" name="email" type="text" />
-					<FormikTextArea label="Message" name="message" rows='30' />
-					<FormikSelect label="Your Plan" name="plan">
-						<option value="red">Red</option>
-						<option value="green">Green</option>
-						<option value="blue">Blue</option>
-					</FormikSelect>
-					<button type="submit">Submit</button>
-				</Form>
+						setSubmitting(false)
+					}, 400)
+				}}>
+
+				{({ errors, touched }) => (
+					<Form style={{ width: '100%' }}>
+						<FormikInput label={locale === 'en' ? 'Name' : 'お名前'} name="name" type="text" mb={3} variant="flushed"
+							borderColor='gray.500'
+							focusBorderColor={highlightColor} />
+						<FormikInput label={locale === 'en' ? 'Email address' : 'メールアドレス'} name="email" type="text" mb={3} variant="flushed"
+							borderColor='gray.500'
+							focusBorderColor={highlightColor} />
+						<FormikTextArea label={locale === 'en' ? 'Message' : 'メッセージ'} name="message" whiteSpace='pre-wrap'
+							px={6} py={4} mb={3}
+							size="xl" rows={10}
+							borderColor='gray.500'
+							focusBorderColor={highlightColor}
+							borderRadius={4}
+							lineHeight={1.6} />
+						<FormikSelect label={locale === 'en' ? 'Plan' : 'プラン'} name="plan">
+							<option value="Plan_1">Plan.1 (Archive with Subscription)</option>
+							<option value="Plan_2">Plan.2 (Archive without Subscription)</option>
+						</FormikSelect>
+						<FormikSubmitButton errors={errors} touched={touched} />
+					</Form>
+				)}
+
 			</Formik>
 		</>
-	);
+	)
 }

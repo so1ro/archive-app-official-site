@@ -5,14 +5,14 @@ import nodemailer from 'nodemailer'
 const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 
+		const regex = new RegExp(/\n/, 'gi') // New line : change \n to <br />
 		const mailData = {
 			from: req.body.email,
 			to: 'masamichi.kagaya.ap+archive-app-official@gmail.com',
 			subject: `Message From ${req.body.name}`,
 			text: req.body.message,
-			html: `<div><p>${req.body.plan}</p><p>${req.body.message}</p></div>`
+			html: `<div><p>${req.body.plan}</p><p>${req.body.message.replace(regex, '<br />')}</p></div>`
 		}
-		console.log('mailData:', mailData)
 
 		const transporter = nodemailer.createTransport({
 			port: 465,

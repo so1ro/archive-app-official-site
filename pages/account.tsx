@@ -89,10 +89,10 @@ export default function Account({ allPrices, landingPageText }: { allPrices: All
   else {
     return (
       <PageShell customPT={null} customSpacing={null}>
-        <Box w='full' maxW='640px'>
-          Account
+        <Box w='full' maxW='840px'>
+          <Text mb={8}>Account</Text>
+          <ApplyForm />
         </Box>
-        <ApplyForm />
       </PageShell>
     )
   }
