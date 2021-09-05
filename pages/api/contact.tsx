@@ -18,8 +18,8 @@ const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 			port: 465,
 			host: "smtp.gmail.com",
 			auth: {
-				user: process.env.TRANSIT_ADDRESS,
-				pass: process.env.SMTP_PASSWORD,
+				user: process.env.CONTACT_SMTP_ADDRESS,
+				pass: process.env.CONTACT_SMTP_PASSWORD,
 			},
 			secure: true,
 		})

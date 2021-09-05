@@ -94,14 +94,14 @@ export const FavoriteHeartIcon = createIcon({
 
 
 export const HeroWaveL = (size) => (
-    <svg width="102%" height="84" pos='absolute' left='50%' transform='translateX(-51%)' viewBox="0 0 1440 84" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="102%" height="84" viewBox="0 0 1440 84" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" clipRule="evenodd" d="M0 0.213684L0 84.2137H1178H1440V80.1065C1353 82.8378 1265.66 84.2137 1178 84.2137C778.017 84.2137 384.707 55.5688 0 0.213684Z" fill="white" />
     </svg>
 
 )
 
 export const HeroWaveD = (size) => (
-    <svg width="102%" height="84" pos='absolute' left='50%' transform='translateX(-51%)' viewBox="0 0 1440 84" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="102%" height="84" viewBox="0 0 1440 84" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" clipRule="evenodd" d="M0 0.213684L0 84.2137H1178H1440V80.1065C1353 82.8378 1265.66 84.2137 1178 84.2137C778.017 84.2137 384.707 55.5688 0 0.213684Z" fill="#1B272F" />
     </svg>
 
