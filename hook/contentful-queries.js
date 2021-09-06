@@ -9,6 +9,19 @@ export const maxImportContent = 1000
 // Contentful.ts の generateSearchQuery に 検索項目 として、下記反映すること
 // type.d.tsに Type definition として、下記反映すること
 
+export const query_applyText =
+  `{
+    archiveAppApplyCollection{
+      items{
+        sys{
+          id
+        }
+        applyText
+      }
+    }
+  }
+`
+
 export const query_topHeroText =
   `{
     archiveAppTopHeroCollection{

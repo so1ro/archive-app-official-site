@@ -11,8 +11,9 @@ const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 			to: 'masamichi.kagaya.ap+archive-app-official@gmail.com',
 			subject: `Message From ${req.body.name}`,
 			text: req.body.message,
-			html: `<div><p>${req.body.plan}</p><p>${req.body.message.replace(regex, '<br />')}</p></div>`
+			html: `<div><p>${req.body.plan}</p><p>${req.body.snsIntegration}</p><p>${req.body.type}</p><p>${req.body.sns}</p><p>${req.body.followerNumber}</p><p>${req.body.message.replace(regex, '<br />')}</p></div>`
 		}
+		console.log('mailData:', mailData)
 
 		const transporter = nodemailer.createTransport({
 			port: 465,

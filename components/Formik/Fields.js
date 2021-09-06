@@ -3,7 +3,7 @@ import { Select, HStack, VStack, Input, Textarea, Text, useColorModeValue, Butto
 import { text_highlight_color, text_color } from '@/styles/colorModeValue'
 import { useRouter } from 'next/router'
 
-const form_parts_spacing = 16
+const form_parts_spacing = 24
 const form_label_mr = 4
 const form_label_mb = 2
 
@@ -52,6 +52,19 @@ export const FormikSelect = ({ label, ...props }) => {
 	const highlightColor = useColorModeValue(text_highlight_color.l, text_highlight_color.d)
 	const { locale } = useRouter()
 
+	let placeholder
+	switch (props.name) {
+		case 'plan':
+			placeholder = locale === 'en' ? 'Please choose your plan' : 'ご検討中のプランをお選びください。'
+			break;
+		case 'type':
+			placeholder = locale === 'en' ? 'Please choose your creation type' : '制作物のタイプをお知らせください。'
+			break;
+		case 'snsIntegration':
+			placeholder = locale === 'en' ? 'Yes / No' : 'はい／いいえ'
+			break;
+	}
+
 	return (
 		<VStack spacing={form_label_mb} alignItems='flex-start' mb={form_parts_spacing}>
 			<HStack spacing={form_label_mr}>
@@ -63,18 +76,11 @@ export const FormikSelect = ({ label, ...props }) => {
 			<Select
 				{...field} {...props}
 				d={{ base: 'none', sm: 'inline-block' }}
-				placeholder={locale === 'en' ? 'Please choose your plan' : 'ご検討中のプランをお選びください。'} w='none'
+				placeholder={placeholder}
+				w='none'
 				borderColor="gray.500"
 				borderRadius={4}>
 			</Select>
-			{/* <select {...field} {...props}
-				style={{
-					background: 'none',
-					border: `solid 1px ${textColor}`,
-					borderRadius: '0.3rem',
-					padding: '6px 10px',
-					paddingInlineEnd: '2rem'
-				}} /> */}
 		</VStack >
 	)
 }

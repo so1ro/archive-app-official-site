@@ -8,7 +8,7 @@ import { postData } from '@/utils/helpers'
 import PriceList from '@/components/PriceList'
 import { Toast } from '@/components/Toast'
 import { fetchContentful } from '@/hook/contentful'
-import { } from '@/hook/contentful-queries'
+import { query_applyText } from '@/hook/contentful-queries'
 
 import { Button, Code, Box, Grid, Center, Text, useToast, HStack, useColorModeValue, Table, Tbody, Tr, Td, TableCaption, useBreakpointValue, } from '@chakra-ui/react'
 import PageShell from '@/components/PageShell'
@@ -16,7 +16,7 @@ import LoadingSpinner from '@/components/Spinner'
 import { bg_color, border_color } from '@/styles/colorModeValue'
 import ApplyForm from '@/components/ApplyForm'
 
-export default function Account({ allPrices, landingPageText }: { allPrices: AllPrices[], landingPageText: LandingPageText[], }) {
+export default function Account({ applyText }: { applyText: applyText }) {
 
   const { user, error, isLoading } = useUser()
   const {
@@ -91,7 +91,7 @@ export default function Account({ allPrices, landingPageText }: { allPrices: All
       <PageShell customPT={null} customSpacing={null}>
         <Box w='full' maxW='840px'>
           <Text mb={8}>Account</Text>
-          <ApplyForm />
+          <ApplyForm applyText={applyText} />
         </Box>
       </PageShell>
     )
@@ -276,17 +276,14 @@ export default function Account({ allPrices, landingPageText }: { allPrices: All
 
   //   return <LoadingSpinner />
   // }
+}
+export const getStaticProps: GetStaticProps = async () => {
+  // get Subscription Plans from Stripe
+  const { archiveAppApplyCollection: { items } } = await fetchContentful(query_applyText) // This is for fetching Annotation under the price list
+  const applyText = items[0].applyText
 
-  // export const getStaticProps: GetStaticProps = async () => {
-  //   // get Subscription Plans from Stripe
-  //   const landingPageText = await fetchContentful(query_archivePricing) // This is for fetching Annotation under the price list
-  //   const allPrices = await fetchAllPrices()
-
-  //   return {
-  //     props: {
-  //       allPrices: [...allPrices],
-  //       landingPageText: landingPageText.archivePricingCollection.items
-  //     },
-  //     revalidate: 30
-  //   }
+  return {
+    props: { applyText },
+    revalidate: 1
+  }
 }

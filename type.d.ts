@@ -1,3 +1,19 @@
+interface applyText {
+  plan?: {
+    en?: {
+      value?: string
+      text?: string
+    }
+    ja?: {
+      value?: string
+      text?: string
+    }
+  }
+  type?: {
+    en?: string[]
+    ja?: string[]
+  }
+}
 interface topHeroText {
   en?: string
   ja?: string
