@@ -9,9 +9,29 @@ const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 		const mailData = {
 			from: req.body.email,
 			to: 'masamichi.kagaya.ap+archive-app-official@gmail.com',
-			subject: `Message From ${req.body.name}`,
+			// Someday combine Apply and Contact with "{req.body.plan ? 'Apply Archive app from' : 'Contact from'}"
+			subject: `Apply Archive app from ${req.body.name}`,
+			// Someday combine Apply and Contact with "{req.body.name && <p> ~ </p>}"
+			html: `
+				<div>
+					<p><b>お名前（作家名）</b></p>
+					<p>${req.body.name}</p><br />
+					<p><b>メールアドレス</b></p>
+					<p>${req.body.email}</p><br />
+					<p><b>ご検討中のプランをお選びください。</b></p>
+					<p>${req.body.plan}</p><br />
+					<p><b>SNSの統合もご希望ですか?</b></p>
+					<p>${req.body.snsIntegration}</p><br />
+					<p><b>あなたのSNSのURL</b></p>
+					<p>${req.body.snsURL}</p><br />
+					<p><b>あなたのSNSの現在のフォロワー数</b></p>
+					<p>${req.body.followerNumber}</p><br />
+					<p><b>創作物のタイプをお知らせください。</b></p>
+					<p>${req.body.type}</p><br />
+					<p><b>メッセージ</b></p>
+					<p>${req.body.message.replace(regex, '<br />')}</p>
+				</div>`,
 			text: req.body.message,
-			html: `<div><p>${req.body.plan}</p><p>${req.body.snsIntegration}</p><p>${req.body.type}</p><p>${req.body.sns}</p><p>${req.body.followerNumber}</p><p>${req.body.message.replace(regex, '<br />')}</p></div>`
 		}
 		console.log('mailData:', mailData)
 

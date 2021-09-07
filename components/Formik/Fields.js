@@ -20,7 +20,7 @@ export const FormikInput = ({ label, ...props }) => {
 					<Text color={highlightColor} fontSize='sm'>{meta.error}</Text>
 				) : null}
 			</HStack>
-			<Input className="text-input" {...field} {...props} />
+			<Input {...field} {...props} />
 		</VStack>
 	)
 }
@@ -38,7 +38,6 @@ export const FormikTextArea = ({ label, ...props }) => {
 					<Text as='span' color={highlightColor} fontSize='sm'>{meta.error}</Text>
 				) : null}
 			</HStack>
-			{/* <textarea className="text-input" {...field} {...props} whiteSpace='pre-wrap' /> */}
 			<Textarea {...field} {...props} />
 		</VStack>
 	)
@@ -61,7 +60,7 @@ export const FormikSelect = ({ label, ...props }) => {
 			placeholder = locale === 'en' ? 'Please choose your creation type' : '制作物のタイプをお知らせください。'
 			break;
 		case 'snsIntegration':
-			placeholder = locale === 'en' ? 'Yes / No' : 'はい／いいえ'
+			placeholder = locale === 'en' ? 'Yes / No / etc' : 'はい／いいえ／他'
 			break;
 	}
 

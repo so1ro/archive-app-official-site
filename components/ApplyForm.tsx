@@ -8,12 +8,15 @@ import { useRouter } from 'next/router'
 import { useColorModeValue } from "@chakra-ui/react"
 import { useToast } from "@chakra-ui/toast"
 import { Toast, ToastError } from '@/components/Toast'
-import { highlight_color } from '@/styles/colorModeValue'
+import { highlight_color, text_color } from '@/styles/colorModeValue'
 
-export default function ApplyForm({ applyText }) {
+export default function ApplyForm({ applyText, userEmail, userAuth0UUID }) {
+	console.log('userEmail:', userEmail)
+	console.log('userAuth0UUID:', userAuth0UUID)
 
 	const [response, setResponse] = useState({ type: '', message: '', })
 	const highlightColor = useColorModeValue(highlight_color.l, highlight_color.d)
+	const blurTextColor = useColorModeValue(text_color.l, text_color.d)
 	const toast = useToast()
 	const { locale } = useRouter()
 
@@ -63,22 +66,26 @@ export default function ApplyForm({ applyText }) {
 			<Formik
 				initialValues={{
 					name: '',
-					email: '',
-					message: '',
+					email: userEmail,
 					plan: '',
+					snsIntegration: '',
+					snsURL: '',
+					followerNumber: '',
+					type: '',
+					message: '',
 				}}
 				validationSchema={Yup.object({
 					name: Yup.string()
 						.max(30, 'Must be 30 characters or less')
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
-					email: Yup.string()
-						.email(`${locale === 'en' ? '* Invalid email address' : '※ 有効なメールアドレスをご記入ください。'}`)
-						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
+					// email: Yup.string()
+					// 	.email(`${locale === 'en' ? '* Invalid email address' : '※ 有効なメールアドレスをご記入ください。'}`)
+					// 	.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					plan: Yup.string()
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					snsIntegration: Yup.string()
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
-					sns: Yup.string()
+					snsURL: Yup.string()
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					followerNumber: Yup.number()
 						.positive(`${locale === 'en' ? '* Please enter positive number.' : '※ 正の整数をご入力ください。'}`)
@@ -99,31 +106,34 @@ export default function ApplyForm({ applyText }) {
 				}}>
 
 				{({ errors, touched }) => (
-					<Form style={{ width: '100%' }}>
-						<FormikInput label={locale === 'en' ? 'Name' : 'お名前'}
+					<Form>
+						<FormikInput label={locale === 'en' ? 'Name (Author name)' : 'お名前（作家名）'}
 							name="name" type="text" mb={3} variant="flushed" borderColor='gray.500'
 							focusBorderColor={highlightColor} />
 						<FormikInput label={locale === 'en' ? 'Email address' : 'メールアドレス'}
 							name="email" type="text"
-							mb={3} variant="flushed" borderColor='gray.500'
-							focusBorderColor={highlightColor} />
+							mb={3} variant="unstyled"
+							color={blurTextColor}
+							borderBottom='1px solid' borderRadius={0} pb={2} borderColor='gray.500'
+							value={userEmail} isReadOnly />
 						<FormikSelect label={locale === 'en' ? 'Plan' : 'プラン'} name="plan">
-							{applyText.plan[locale].map(plan => <option value={plan.value}>{plan.text}</option>)}
+							{applyText.plan[locale].map(plan => <option value={plan.value} key={plan.value}>{plan.text}</option>)}
 						</FormikSelect>
 						<FormikSelect label={locale === 'en' ? 'Do you want SNS integration?' : 'SNSの統合もご希望ですか?'} name="snsIntegration">
 							{<option value={'yes'}>{locale === 'en' ? 'Yes' : 'はい'}</option>}
 							{<option value={'no'}>{locale === 'en' ? 'No' : 'いいえ'}</option>}
+							{<option value={'considering'}>{locale === 'en' ? 'Still considering' : 'まだ検討中'}</option>}
 						</FormikSelect>
 						<FormikInput label={locale === 'en' ? 'URL of your SNS' : 'あなたのSNSのURL'}
-							name="sns" type="text"
+							name="snsURL" type="text"
 							mb={3} variant="flushed" borderColor='gray.500'
 							focusBorderColor={highlightColor} />
 						<FormikInput label={locale === 'en' ? 'Current number of followers in your SNS' : 'あなたのSNSの現在のフォロワー数'}
 							name="followerNumber" type="text"
 							mb={3} variant="flushed" borderColor='gray.500'
 							focusBorderColor={highlightColor} />
-						<FormikSelect label={locale === 'en' ? 'Create Type' : '制作のタイプ'} name="type">
-							{applyText.type[locale].map(type => <option value={type}>{type}</option>)}
+						<FormikSelect label={locale === 'en' ? 'Creation Type' : '創作物のタイプ'} name="type">
+							{applyText.type[locale].map(type => <option value={type} key={type}>{type}</option>)}
 						</FormikSelect>
 						<FormikTextArea label={locale === 'en' ? 'Message' : 'メッセージ'} name="message" whiteSpace='pre-wrap'
 							px={6} py={4} mb={3}

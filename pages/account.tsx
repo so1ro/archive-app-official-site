@@ -31,12 +31,26 @@ export default function Account({ applyText }: { applyText: applyText }) {
     setTemporaryPaidCheck,
   } = useUserMetadata()
 
+  // Hook
   const toast = useToast()
   // const { annotation } = landingPageText[0]
   const tableSize = useBreakpointValue({ base: 'sm', md: 'md' })
   const bgColor = useColorModeValue(bg_color.l, bg_color.d)
 
-  // // useEffect
+  // Stat
+  // const [{ user }, setIsFavoriteArchiveLoading] = useState<{ isFavoriteArchiveLoading: boolean }>({ isFavoriteArchiveLoading: false })
+
+  // //// useEffect
+  // useEffect(() => {
+  //   if (user) {
+  //     const checkSession = async () => {
+
+  //     }
+  //     checkSession()
+  //   }
+  // }, [user]) 
+
+  //// useEffect
   // useEffect(() => {
   //   if (user && typeof window !== 'undefined' && window.location.search.indexOf('session_id') > 0) {
   //     const urlParams = new URLSearchParams(window.location.search)
@@ -86,16 +100,17 @@ export default function Account({ applyText }: { applyText: applyText }) {
 
   // Render
   if (error) return <div>{error.message}</div>
-  else {
+  if (user) {
     return (
       <PageShell customPT={null} customSpacing={null}>
         <Box w='full' maxW='840px'>
           <Text mb={8}>Account</Text>
-          <ApplyForm applyText={applyText} />
+          <ApplyForm userEmail={user.email} userAuth0UUID={user.sub} applyText={applyText} />
         </Box>
       </PageShell>
     )
   }
+  return <LoadingSpinner />
 
 
   //   // サブスクリプション購入後
