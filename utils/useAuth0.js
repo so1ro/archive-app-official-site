@@ -68,6 +68,27 @@ const getUserMetadata = async (user_id, token) => {
 }
 
 
+//// Upsert User Metadata
+const upsertUserMetadata = async (auth0_UUID, meta) => {
+
+    try {
+        const auth0Token = await auth0AccessToken()
+        const { user_metadata: { User_Detail: currentUserDetail } } = await getUserMetadata(auth0_UUID, auth0Token)
+        const User_Detail = { ...currentUserDetail, ...meta }
+        const metadata = { User_Detail }
+        await patchUserMetadataToAuth0(auth0_UUID, auth0Token, metadata)
+
+    } catch (e) {
+        //// Logging ////
+        console.error(`api/upsert-user-metadata にてエラー。Auth0へmetadataの更新に失敗。auth0_UUID : ${auth0_UUID}, metadata : ${metadata}`, e)
+        loggerError_Serverside(req, res, e, `api/upsert-user-metadata にてエラー。Auth0へmetadataの更新に失敗。auth0_UUID : ${auth0_UUID}, metadata : ${metadata}`)
+        //// end of Logging ////      
+        throw new Error(e)
+    }
+}
+
+
+//////////////////////
 //// Send Subscription record to Auth0
 const upsertSubscriptionRecord = async (event) => {
 
@@ -180,8 +201,11 @@ const upsertFavoriteVideo = async (auth0_UUID, favoriteVideo) => {
 
 export {
     getUserMetadata,
+    upsertUserMetadata,
+    /// delete in future
     upsertSubscriptionRecord,
     upsertChargeRecord,
     upsertOnePayRecord,
     upsertFavoriteVideo,
+    ///
 }

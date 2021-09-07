@@ -105,7 +105,7 @@ export default function Account({ applyText }: { applyText: applyText }) {
       <PageShell customPT={null} customSpacing={null}>
         <Box w='full' maxW='840px'>
           <Text mb={8}>Account</Text>
-          <ApplyForm userEmail={user.email} userAuth0UUID={user.sub} applyText={applyText} />
+          <ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} />
         </Box>
       </PageShell>
     )

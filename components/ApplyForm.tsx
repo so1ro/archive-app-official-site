@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import { useState } from "react"
+// import { useState } from "react"
 import * as Yup from "yup"
 import { Formik, Form, } from 'formik'
 import { FormikInput, FormikSelect, FormikSubmitButton, FormikTextArea } from '@/components/Formik/Fields'
@@ -10,11 +10,9 @@ import { useToast } from "@chakra-ui/toast"
 import { Toast, ToastError } from '@/components/Toast'
 import { highlight_color, text_color } from '@/styles/colorModeValue'
 
-export default function ApplyForm({ applyText, userEmail, userAuth0UUID }) {
-	console.log('userEmail:', userEmail)
-	console.log('userAuth0UUID:', userAuth0UUID)
+export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 
-	const [response, setResponse] = useState({ type: '', message: '', })
+	// const [response, setResponse] = useState({ type: '', message: '', })
 	const highlightColor = useColorModeValue(highlight_color.l, highlight_color.d)
 	const blurTextColor = useColorModeValue(text_color.l, text_color.d)
 	const toast = useToast()
@@ -24,6 +22,7 @@ export default function ApplyForm({ applyText, userEmail, userAuth0UUID }) {
 	const handleSubmit = async (values) => {
 
 		try {
+			// api/contact
 			const res = await fetch('/api/contact', {
 				method: 'POST',
 				body: JSON.stringify(values),
@@ -31,14 +30,21 @@ export default function ApplyForm({ applyText, userEmail, userAuth0UUID }) {
 			})
 			const json = await res.json()
 
+			// api/auth/upsert-user-metadata
+			const sendBody = {
+				auth0_UUID,
+				meta: { isApplied: true }
+			}
+			await fetch('/api/auth/upsert-user-metadata', {
+				method: 'POST',
+				body: JSON.stringify(sendBody),
+				headers: { 'Content-Type': 'application/json' },
+			})
+
 			if (json.success) {
 				//成功したらsuccessページに飛ぶ
 				Router.push('/contact_success')
 			} else {
-				setResponse({
-					type: 'error',
-					message: '送信中にエラーが発生しました。',
-				})
 				toast({
 					status: 'error',
 					isClosable: true,
@@ -48,15 +54,16 @@ export default function ApplyForm({ applyText, userEmail, userAuth0UUID }) {
 			}
 
 		} catch (e) {
-			setResponse({
-				type: 'error',
-				message: 'メッセージは送信されませんでした。',
-			})
 			toast({
 				status: 'error',
 				isClosable: true,
-				duration: 9000,
-				render: () => (<ToastError text={"メッセージは送信されませんでした。"} />)
+				duration: null,
+				render: () => (<ToastError
+					text={
+						locale === 'en' ?
+							'ネットワーク障害で申請が完了しませんでした。お手数をおかけして申し訳ございません。迅速に対応いたしますので、次のアドレスまでご連絡ください。masamichi.kagaya.ap+archive-app-official@gmail.com' :
+							'Your application was not completed. Could you please send an email to the following email address. We will instantly process it. masamichi.kagaya.ap+archive-app-official@gmail.com'
+					} />)
 			})
 		}
 	}
@@ -96,7 +103,6 @@ export default function ApplyForm({ applyText, userEmail, userAuth0UUID }) {
 					message: Yup.string()
 						.max(2000, 'Must be 2000 characters or less')
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
-
 				})}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(() => {
