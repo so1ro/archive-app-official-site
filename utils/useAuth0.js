@@ -74,8 +74,7 @@ const upsertUserMetadata = async (auth0_UUID, meta) => {
     try {
         const auth0Token = await auth0AccessToken()
         const { user_metadata: { User_Detail: currentUserDetail } } = await getUserMetadata(auth0_UUID, auth0Token)
-        const User_Detail = { ...currentUserDetail, ...meta }
-        const metadata = { User_Detail }
+        const metadata = { User_Detail: { ...currentUserDetail, ...meta } }
         await patchUserMetadataToAuth0(auth0_UUID, auth0Token, metadata)
 
     } catch (e) {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { GetStaticProps } from "next"
+import { useRouter } from 'next/router'
 
 import { useUser } from '@auth0/nextjs-auth0'
 import { useUserMetadata } from '@/context/useUserMetadata'
@@ -10,13 +11,14 @@ import { Toast } from '@/components/Toast'
 import { fetchContentful } from '@/hook/contentful'
 import { query_applyText } from '@/hook/contentful-queries'
 
-import { Button, Code, Box, Grid, Center, Text, useToast, HStack, useColorModeValue, Table, Tbody, Tr, Td, TableCaption, useBreakpointValue, } from '@chakra-ui/react'
+import { Circle, Button, Code, Box, Grid, Center, Text, Heading, useToast, Stack, VStack, HStack, useColorModeValue, Table, Tbody, Tr, Td, TableCaption, useBreakpointValue, Spinner } from '@chakra-ui/react'
 import PageShell from '@/components/PageShell'
 import LoadingSpinner from '@/components/Spinner'
-import { bg_color, border_color } from '@/styles/colorModeValue'
+import { bg_color, highlight_color, text_color, text_highlight_color } from '@/styles/colorModeValue'
 import ApplyForm from '@/components/ApplyForm'
 
-export default function Account({ applyText }: { applyText: applyText }) {
+export default function Account({ applyText, allPrices, }: { applyText: applyText, allPrices: AllPrices[], }) {
+  console.log('allPrices:', allPrices)
 
   const { user, error, isLoading } = useUser()
   const {
@@ -33,9 +35,14 @@ export default function Account({ applyText }: { applyText: applyText }) {
 
   // Hook
   const toast = useToast()
+  const router = useRouter()
+  const { locale } = useRouter()
   // const { annotation } = landingPageText[0]
   const tableSize = useBreakpointValue({ base: 'sm', md: 'md' })
   const bgColor = useColorModeValue(bg_color.l, bg_color.d)
+  const textColor = useColorModeValue(text_color.l, text_color.d)
+  const textHighlightColor = useColorModeValue(text_highlight_color.l, text_highlight_color.d)
+  const stateCss = { fontWeight: 'bold', borderRadius: '3xl', border: `2px solid `, px: 6, py: 2, d: 'inline-block', mb: 5 }
 
   // Stat
   // const [{ user }, setIsFavoriteArchiveLoading] = useState<{ isFavoriteArchiveLoading: boolean }>({ isFavoriteArchiveLoading: false })
@@ -98,18 +105,64 @@ export default function Account({ applyText }: { applyText: applyText }) {
   //   </Center>
   // )
 
+  // Function
+  const currentState = (): any => {
+    if (!User_Detail?.isApplied) return 'applying'
+    else if (User_Detail?.isApplied && !User_Detail?.isApproved) return 'checking'
+    else if (User_Detail?.isApplied && User_Detail?.isApproved && (User_Detail?.plan === 'Plan_2') && !User_Detail?.isStarted) return 'payment'
+    else if (User_Detail?.isApplied && User_Detail?.isApproved && User_Detail?.isStarted) return 'start'
+  }
+
+
   // Render
   if (error) return <div>{error.message}</div>
-  if (user) {
+  if (!isLoading && !user) { router.push('/') }
+
+  if (!isMetadataLoading && user) {
     return (
       <PageShell customPT={null} customSpacing={null}>
-        <Box w='full' maxW='840px'>
-          <Text mb={8}>Account</Text>
-          <ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} />
-        </Box>
+        <VStack w='full' spacing={16}>
+          <Box fontWeight='medium' fontSize='2xl' w='full'>
+            {locale === 'en' ? `${user.email}` : `${user.email}　様`}
+          </Box>
+          <Stack d='block' textAlign='center' shouldWrapChildren isInline>
+            <Box><Box {...stateCss} color={(currentState() === 'applying') && textHighlightColor} >{locale === 'en' ? 'Apply' : '申込'}</Box> ・・・ </Box>
+            <Box><Box {...stateCss} color={(currentState() === 'checking') && textHighlightColor}>{locale === 'en' ? 'Check' : '審査'}</Box> ・・・ </Box>
+            {User_Detail?.plan === 'Plan_2' &&
+              <Box><Box {...stateCss} color={(currentState() === 'payment') && textHighlightColor}>{locale === 'en' ? 'Payment' : 'お支払'}</Box> ・・・ </Box>}
+            <Box {...stateCss} color={(currentState() === 'start') && textHighlightColor}>{locale === 'en' ? 'Start' : 'スタート'}</Box>
+          </Stack>
+        </VStack>
+        {(currentState() === 'applying') &&
+          <Box w='full' maxW='840px'> <ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} /> </Box>}
+        {(currentState() === 'checking') &&
+          <Box>
+            <Text whiteSpace='pre-wrap'>{locale === 'en' ?
+              'Your application was successfully sent. We are now checking your project.\nIf it is passed, you will receive an email in a week.' :
+              'お申し込みを受領いたしました。\n審査に通過した場合、一週間以内にメールにてご連絡をさせていただきます。'}</Text>
+            {/* ここに以下を追加。申し込みプラン、SNS url、SNS統合希望の有無、創作物のタイプ、メッセージ */}
+          </Box>}
+        {(currentState() === 'payment') &&
+          <Box>
+            <Text whiteSpace='pre-wrap'>{locale === 'en' ?
+              '以下、お支払が開始されますと、ご契約成立となります。最初の2ヶ月間は無料です。' :
+              'Please start paying from the link below. The payment will not happen in the first 2 months.'}</Text>
+            {/* ここに以下を追加。Stripe Checkout Button 申し込みプラン、SNS url、SNS統合希望の有無、創作物のタイプ、メッセージ */}
+            <PriceList user={user} allPrices={allPrices}
+              annotation={null}
+              isOnePayPermanent={false} />
+          </Box>}
+        {(currentState() === 'start') &&
+          <Box>
+            <Text whiteSpace='pre-wrap'>{locale === 'en' ?
+              '' :
+              ''}</Text>
+            {/* ここに以下を追加。アーカイブアプリのURL、プラン、SNS url、SNS統合希望の有無、創作物のタイプ */}
+          </Box>}
       </PageShell>
     )
   }
+
   return <LoadingSpinner />
 
 
@@ -296,9 +349,10 @@ export const getStaticProps: GetStaticProps = async () => {
   // get Subscription Plans from Stripe
   const { archiveAppApplyCollection: { items } } = await fetchContentful(query_applyText) // This is for fetching Annotation under the price list
   const applyText = items[0].applyText
+  const allPrices = await fetchAllPrices()
 
   return {
-    props: { applyText },
+    props: { applyText, allPrices: [...allPrices], },
     revalidate: 1
   }
 }

@@ -11,7 +11,9 @@ export const UserMetadataProvider = (props) => {
   // State
   const { user, isLoading } = useUser();
   const [{ isMetadataLoading }, setIsMetadataLoading] = useState<{ isMetadataLoading: boolean }>({ isMetadataLoading: false })
-  const [{ User_Detail }, setUserDetail] = useState<{ User_Detail: object }>({ User_Detail: null })
+  const [{ User_Detail }, setUserDetail] = useState<{ User_Detail: user_Detail }>({ User_Detail: null })
+  const [{ currentState }, setCurrentState] = useState<{ currentState: string }>({ currentState: '' })
+
   const [{ Subscription_Detail }, setSubscriptionDetail] = useState<{ Subscription_Detail: object }>({ Subscription_Detail: null })
   const [{ One_Pay_Detail }, setOnePayPermanentDetail] = useState<{ One_Pay_Detail: object }>({ One_Pay_Detail: null })
   const [{ error_metadata }, setErrorMetadata] = useState<{ error_metadata: string }>({ error_metadata: '' })
@@ -35,24 +37,35 @@ export const UserMetadataProvider = (props) => {
           }).then(data => data)
 
           // User_Detailを取得
-          if (user_metadata?.User_Detail) {
+          if (user_metadata.User_Detail) {
             const { User_Detail } = user_metadata
             setUserDetail({ User_Detail })
+            // お客様のお申し込みステートを取得
+            if (!User_Detail?.isApplied) setCurrentState({ currentState: 'applying' })
+            else if (User_Detail?.isApplied && !User_Detail?.isApproved) setCurrentState({ currentState: 'checking' })
+            else if (User_Detail?.isApplied && User_Detail?.isApproved && !User_Detail?.isLaunched) setCurrentState({ currentState: 'developing' })
+            else if (User_Detail?.isApplied && User_Detail?.isApproved && User_Detail?.isLaunched) setCurrentState({ currentState: 'launched' })
           }
 
           // ワンペイ永久購入済み One_Pay_Detailを取得
-          if (user_metadata?.One_Pay_Detail) {
+          if (user_metadata.One_Pay_Detail) {
             const { One_Pay_Detail } = user_metadata
             setOnePayPermanentDetail({ One_Pay_Detail })
           }
 
+          // お客様のお申し込みステートを取得
+          // if (user_metadata.User_Detail) {
+          //   console.log('User_Detail:', User_Detail)
+
+          // }
+
           // if favorite_video is saved on Auth0
-          if (user_metadata?.User_Detail.favorite_video) {
+          if (user_metadata.User_Detail.favorite_video) {
             setFavoriteVideo({ favoriteVideo: user_metadata.User_Detail.favorite_video })
           }
 
           // サブスクリプション購入済み Subscription_Detailを取得
-          if (user_metadata?.Subscription_Detail) {
+          if (user_metadata.Subscription_Detail) {
             const { Subscription_Detail: { subscription_Id, criteria_OnePay_price } } = user_metadata
 
             const { subscriptionsObj } = await postData({
@@ -121,6 +134,8 @@ export const UserMetadataProvider = (props) => {
   const value = {
     User_Detail,
     isMetadataLoading,
+    currentState,
+
     subscription_state,
     Subscription_Detail,
     One_Pay_Detail,

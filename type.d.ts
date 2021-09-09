@@ -86,6 +86,13 @@ interface topSigninApplyAnnotation {
   ja?: string
 }
 
+interface user_Detail {
+  isApplied: boolean
+  isApproved: boolean
+  isLaunched: boolean
+  plan: boolean
+}
+
 ////////
 interface AllPrices {
   id: string | null;

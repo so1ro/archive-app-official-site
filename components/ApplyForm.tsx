@@ -22,6 +22,7 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 	const handleSubmit = async (values) => {
 
 		try {
+			toast({ duration: 6000, render: () => (<Toast text={locale === 'en' ? "Sending your application..." : "申請を送信中..."} />) })
 			// api/contact
 			const res = await fetch('/api/contact', {
 				method: 'POST',
@@ -33,7 +34,7 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 			// api/auth/upsert-user-metadata
 			const sendBody = {
 				auth0_UUID,
-				meta: { isApplied: true }
+				meta: { isApplied: true, plan: values.plan }
 			}
 			await fetch('/api/auth/upsert-user-metadata', {
 				method: 'POST',
@@ -43,7 +44,8 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 
 			if (json.success) {
 				//成功したらsuccessページに飛ぶ
-				Router.push('/contact_success')
+				Router.reload()
+				// Router.push('/contact_success')
 			} else {
 				toast({
 					status: 'error',
