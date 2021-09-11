@@ -107,12 +107,11 @@ export default function Account({ applyText, allPrices, }: { applyText: applyTex
 
   // Function
   const currentState = (): any => {
-    if (!User_Detail?.isApplied) return 'applying'
-    else if (User_Detail?.isApplied && !User_Detail?.isApproved) return 'checking'
+    if (!User_Detail?.isApplied) return 'apply'
+    else if (User_Detail?.isApplied && !User_Detail?.isApproved) return 'check'
     else if (User_Detail?.isApplied && User_Detail?.isApproved && (User_Detail?.plan === 'Plan_2') && !User_Detail?.isStarted) return 'payment'
     else if (User_Detail?.isApplied && User_Detail?.isApproved && User_Detail?.isStarted) return 'start'
   }
-
 
   // Render
   if (error) return <div>{error.message}</div>
@@ -120,29 +119,29 @@ export default function Account({ applyText, allPrices, }: { applyText: applyTex
 
   if (!isMetadataLoading && user) {
     return (
-      <PageShell customPT={null} customSpacing={null}>
+      <PageShell customPT={null} customSpacing={{ base: 24 }}>
         <VStack w='full' spacing={16}>
           <Box fontWeight='medium' fontSize='2xl' w='full'>
             {locale === 'en' ? `${user.email}` : `${user.email}　様`}
           </Box>
           <Stack d='block' textAlign='center' shouldWrapChildren isInline>
-            <Box><Box {...stateCss} color={(currentState() === 'applying') && textHighlightColor} >{locale === 'en' ? 'Apply' : '申込'}</Box> ・・・ </Box>
-            <Box><Box {...stateCss} color={(currentState() === 'checking') && textHighlightColor}>{locale === 'en' ? 'Check' : '審査'}</Box> ・・・ </Box>
+            <Box><Box {...stateCss} color={(currentState() === 'apply') && textHighlightColor} >{locale === 'en' ? 'Apply' : '申込'}</Box> ・・・ </Box>
+            <Box><Box {...stateCss} color={(currentState() === 'check') && textHighlightColor}>{locale === 'en' ? 'Check' : '審査'}</Box> ・・・ </Box>
             {User_Detail?.plan === 'Plan_2' &&
               <Box><Box {...stateCss} color={(currentState() === 'payment') && textHighlightColor}>{locale === 'en' ? 'Payment' : 'お支払'}</Box> ・・・ </Box>}
             <Box {...stateCss} color={(currentState() === 'start') && textHighlightColor}>{locale === 'en' ? 'Start' : 'スタート'}</Box>
           </Stack>
         </VStack>
-        {(currentState() === 'applying') &&
+        {(currentState() === 'apply') &&
           <Box w='full' maxW='840px'> <ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} /> </Box>}
-        {(currentState() === 'checking') &&
+        {(currentState() === 'check') &&
           <Box>
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
               'Your application was successfully sent. We are now checking your project.\nIf it is passed, you will receive an email in a week.' :
               'お申し込みを受領いたしました。\n審査に通過した場合、一週間以内にメールにてご連絡をさせていただきます。'}</Text>
             {/* ここに以下を追加。申し込みプラン、SNS url、SNS統合希望の有無、創作物のタイプ、メッセージ */}
           </Box>}
-        {(currentState() === 'payment') &&
+        {(currentState() === 'payment' && !router.query?.session_id) &&
           <Box>
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
               '以下、お支払が開始されますと、ご契約成立となります。最初の2ヶ月間は無料です。' :
@@ -152,6 +151,13 @@ export default function Account({ applyText, allPrices, }: { applyText: applyTex
               annotation={null}
               isOnePayPermanent={false} />
           </Box>}
+        {/* Fallback for Payment complished but not progressing to "Start" state */}
+        {(currentState() === 'payment' && router.query?.session_id) &&
+          <Box>
+            <Text whiteSpace='pre-wrap' color={textHighlightColor}>{locale === 'en' ?
+              'Your subscription was copmpleted. But your status was not changed.\nSorry for that. Could you please send an email to the following email address. \nmasamichi.kagaya.ap+archive-app-official@gmail.com' :
+              'お支払いは完了しましたが、ネットワーク障害によりステータスが変更されませんでした。\nお手数をおかけして申し訳ございません。迅速に対応いたしますので、次のアドレスまでご連絡ください。\nmasamichi.kagaya.ap+archive-app-official@gmail.com'}</Text>
+          </Box>}
         {(currentState() === 'start') &&
           <Box>
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
@@ -159,6 +165,9 @@ export default function Account({ applyText, allPrices, }: { applyText: applyTex
               ''}</Text>
             {/* ここに以下を追加。アーカイブアプリのURL、プラン、SNS url、SNS統合希望の有無、創作物のタイプ */}
           </Box>}
+
+        {/* ここに以下を追加。アーカイブアプリのURL、プラン、SNS url、SNS統合希望の有無、創作物のタイプ */}
+
       </PageShell>
     )
   }

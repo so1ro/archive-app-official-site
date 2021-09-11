@@ -94,10 +94,13 @@ const upsertSubscriptionRecord = async (event) => {
     const { id: subscription_Id, customer: customer_Id } = event
 
     try {
-        const { metadata: { auth0_UUID, criteria_OnePay_price } } = await stripe.customers.retrieve(customer_Id)
+        const { metadata: { auth0_UUID } } = await stripe.customers.retrieve(customer_Id)
         const auth0Token = await auth0AccessToken()
+        const { user_metadata: { User_Detail: currentUserDetail } } = await getUserMetadata(auth0_UUID, auth0Token)
+        const meta = { "isStarted": true }
         const metadata = {
-            Subscription_Detail: { subscription_Id, criteria_OnePay_price, }
+            Subscription_Detail: { subscription_Id },
+            User_Detail: { ...currentUserDetail, ...meta }
         }
         // canceled_at : If the subscription has been canceled, the date of that cancellation. If the subscription was canceled with cancel_at_period_end, canceled_at will reflect the time of the most recent update request, not the end of the subscription period when the subscription is automatically moved to a canceled state.
         await patchUserMetadataToAuth0(auth0_UUID, auth0Token, metadata)

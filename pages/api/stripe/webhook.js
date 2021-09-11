@@ -61,25 +61,25 @@ const webhookHandler = async (req, res) => {
                         break
 
                     // Subscription
-                    case 'invoice.payment_succeeded':
-                        const subscriptionPaymentSession = event.data.object
-                        console.log('subscriptionPaymentSession', subscriptionPaymentSession)
-                        await upsertChargeRecord(subscriptionPaymentSession)
-                        break
+                    // case 'invoice.payment_succeeded':
+                    //     const subscriptionPaymentSession = event.data.object
+                    //     console.log('subscriptionPaymentSession', subscriptionPaymentSession)
+                    //     await upsertChargeRecord(subscriptionPaymentSession)
+                    //     break
 
                     // One Pay
-                    case 'charge.succeeded':
-                        const chargeOnePayPaymentSession = event.data.object
-                        console.log('chargeOnePayPaymentSession:', chargeOnePayPaymentSession)
-                        await upsertOnePayRecord(chargeOnePayPaymentSession)
-                        break
+                    // case 'charge.succeeded':
+                    //     const chargeOnePayPaymentSession = event.data.object
+                    //     console.log('chargeOnePayPaymentSession:', chargeOnePayPaymentSession)
+                    //     await upsertOnePayRecord(chargeOnePayPaymentSession)
+                    //     break
 
                     // Refund
-                    case 'charge.refunded':
-                        const refundSession = event.data.object
-                        console.log('refound:', refundSession)
-                        await upsertChargeRecord(refundSession)
-                        break
+                    // case 'charge.refunded':
+                    //     const refundSession = event.data.object
+                    //     console.log('refound:', refundSession)
+                    //     await upsertChargeRecord(refundSession)
+                    //     break
 
                     default:
                         console.log(`Unhandled event type ${event.type}`)
