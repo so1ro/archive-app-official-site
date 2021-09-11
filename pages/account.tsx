@@ -9,16 +9,17 @@ import { postData } from '@/utils/helpers'
 import PriceList from '@/components/PriceList'
 import { Toast } from '@/components/Toast'
 import { fetchContentful } from '@/hook/contentful'
-import { query_applyText } from '@/hook/contentful-queries'
+import { query_applyText, query_topCondition } from '@/hook/contentful-queries'
+import { bg_color, highlight_color, text_color, text_highlight_color } from '@/styles/colorModeValue'
 
-import { Circle, Button, Code, Box, Grid, Center, Text, Heading, useToast, Stack, VStack, HStack, useColorModeValue, Table, Tbody, Tr, Td, TableCaption, useBreakpointValue, Spinner } from '@chakra-ui/react'
+import { Circle, Button, Code, Box, Grid, Center, Text, Heading, useToast, Stack, VStack, HStack, useColorModeValue, Table, Tbody, Tr, Td, TableCaption, useBreakpointValue, Spinner, Divider } from '@chakra-ui/react'
 import PageShell from '@/components/PageShell'
 import LoadingSpinner from '@/components/Spinner'
-import { bg_color, highlight_color, text_color, text_highlight_color } from '@/styles/colorModeValue'
 import ApplyForm from '@/components/ApplyForm'
+import Condition from '@/components/Condtion'
 
-export default function Account({ applyText, allPrices, }: { applyText: applyText, allPrices: AllPrices[], }) {
-  console.log('allPrices:', allPrices)
+export default function Account({ applyText, allPrices, condition, }:
+  { applyText: applyText, allPrices: AllPrices[], condition: topConditionText, }) {
 
   const { user, error, isLoading } = useUser()
   const {
@@ -133,7 +134,11 @@ export default function Account({ applyText, allPrices, }: { applyText: applyTex
           </Stack>
         </VStack>
         {(currentState() === 'apply') &&
-          <Box w='full' maxW='840px'> <ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} /> </Box>}
+          <Box w='full' maxW='840px'>
+            <ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} />
+            <Divider my={36} />
+            <Condition condition={condition} />
+          </Box>}
         {(currentState() === 'check') &&
           <Box>
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
@@ -359,9 +364,11 @@ export const getStaticProps: GetStaticProps = async () => {
   const { archiveAppApplyCollection: { items } } = await fetchContentful(query_applyText) // This is for fetching Annotation under the price list
   const applyText = items[0].applyText
   const allPrices = await fetchAllPrices()
+  const { archiveAppTopConditionCollection: { items: conditionText } } = await fetchContentful(query_topCondition)
+  const condition = conditionText[0].condition
 
   return {
-    props: { applyText, allPrices: [...allPrices], },
+    props: { applyText, condition, allPrices: [...allPrices], },
     revalidate: 1
   }
 }

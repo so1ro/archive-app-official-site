@@ -10,7 +10,8 @@ import {
   query_topCondition,
   query_topChartText,
   query_topSigninApplyAnnotation,
-  query_topHeroText
+  query_topHeroText,
+  query_applyText
 } from "@/hook/contentful-queries"
 
 import { Box, Container, VStack } from "@chakra-ui/react"
@@ -22,13 +23,15 @@ import Philosophy from '@/components/Philosophy'
 import Condition from '@/components/Condtion'
 import Plan01Chart from '@/components/Plan01Chart'
 import SigninApplyButton from '@/components/SigninApplyButton'
+import ApplyForm from '@/components/ApplyForm'
 
 
 export default function Home(
-  { plan, philosophy, condition, chartText, applyAnnotation, heroText }:
+  { plan, philosophy, condition, chartText, applyAnnotation, heroText, applyText, }:
     {
       plan: topPlanText, philosophy: topPhilosophyText, condition: topConditionText,
-      chartText: topPlan1ChartText, applyAnnotation: topSigninApplyAnnotation, heroText: topHeroText
+      chartText: topPlan1ChartText, applyAnnotation: topSigninApplyAnnotation, heroText: topHeroText,
+      applyText: applyText,
     }
 ) {
 
@@ -48,7 +51,8 @@ export default function Home(
         </Box>
         <Plan badge={plan.plan02[locale].badge} title={plan.plan02[locale].title} text={plan.plan02[locale].text} />
         <Plan badge={plan.option[locale].badge} title={plan.option[locale].title} text={plan.option[locale].text} />
-        <SigninApplyButton buttonText={locale === 'en' ? 'Sing in / Apply' : 'サインイン・お申し込み'} annotation={applyAnnotation[locale]} />
+        {!isLoading && !user && <SigninApplyButton buttonText={locale === 'en' ? 'Sing in / Apply' : 'サインイン・お申し込み'} annotation={applyAnnotation[locale]} />}
+        {!isLoading && user && <Box w='full' maxW='840px'><ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} /></Box>}
         <Condition condition={condition} />
       </PageShell>
     </>
@@ -63,6 +67,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const { archiveAppTopPlan1ChartCollection: { items: plan1ChartText } } = await fetchContentful(query_topChartText)
   const { archiveAppTopSignInApplyCollection: { items: applyAnnotationText } } = await fetchContentful(query_topSigninApplyAnnotation)
   const { archiveAppTopHeroCollection: { items: heroTexts } } = await fetchContentful(query_topHeroText)
+  const { archiveAppApplyCollection: { items } } = await fetchContentful(query_applyText) // This is for fetching Annotation under the price list
 
   const plan = planText[0].text
   const philosophy = philosophyText[0].philosophy
@@ -70,6 +75,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const chartText = plan1ChartText[0].chartText
   const applyAnnotation = applyAnnotationText[0].signinApply.annotation
   const heroText = heroTexts[0].heroText
+  const applyText = items[0].applyText
 
   return {
     props: {
@@ -78,7 +84,8 @@ export const getStaticProps: GetStaticProps = async () => {
       condition,
       chartText,
       applyAnnotation,
-      heroText
+      heroText,
+      applyText,
     },
     revalidate: 30,
   }

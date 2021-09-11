@@ -86,10 +86,13 @@ export const FormikSelect = ({ label, ...props }) => {
 
 
 export const FormikSubmitButton = ({ errors, touched }) => {
+
+	const { locale } = useRouter()
+
 	return (
 		<Button
 			type="submit"
 			colorScheme='green'
-			disabled={!!Object.keys(errors).length || !Object.keys(touched).length}>Submit</Button>
+			disabled={!!Object.keys(errors).length || !Object.keys(touched).length}>{locale === 'en' ? 'Submit' : '送信'}</Button>
 	)
 }
