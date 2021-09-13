@@ -23,10 +23,13 @@ export default function UserLoginSignup() {
                     textAlign={locale === 'en' ? 'right' : 'left'}
                     alignSelf={locale === 'en' ? 'flex-end' : 'center'}
                     onClick={() => {
-                        toast({ duration: 3000, render: () => (<Toast text={"サインアップに移動中..."} />) })
+                        toast({
+                            duration: 3000,
+                            render: () => (<Toast text={locale === 'en' ? 'Moving to Sign in...' : 'サインインに移動中...'} />)
+                        })
                     }}>
                     <Text color={locale === 'en' ? highlighColor : ''}>{locale === 'en' ? 'Sign in' : '初めての方は'}</Text>
-                    <Text color={locale === 'en' ? '' : highlighColor}>{locale === 'en' ? 'or' : 'サインアップ'}</Text>
+                    <Text color={locale === 'en' ? '' : highlighColor}>{locale === 'en' ? 'or' : 'サインイン'}</Text>
                 </Link>
                 <Link href="/api/auth/login">
                     <Button
@@ -35,7 +38,12 @@ export default function UserLoginSignup() {
                         fontWeight='md' color={textColor}
                         bg={bgColor} border="1px"
                         _hover={{ bg: bgColor }}
-                        onClick={() => { toast({ duration: 3000, render: () => (<Toast text={"ログインに移動中..."} />) }) }}>
+                        onClick={() => {
+                            toast({
+                                duration: 3000,
+                                render: () => (<Toast text={locale === 'en' ? 'Moving to Login...' : 'ログインに移動中...'} />)
+                            })
+                        }}>
                         {locale === 'en' ? 'Login' : 'ログイン'}
                     </Button>
                 </Link>

@@ -1,6 +1,7 @@
 import { useUser } from '@auth0/nextjs-auth0'
 import Nav from '@/components/Nav'
 import ActiveLink from '@/components/ActiveLink'
+import { useRouter } from 'next/router'
 
 import {
     Modal,
@@ -33,6 +34,7 @@ export default function NavModalSPTB() {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { user, error, isLoading } = useUser()
+    const { locale } = useRouter()
     const toast = useToast()
     const borderColor = useColorModeValue(text_color.l, text_color.d)
     const highlighColor = useColorModeValue(text_highlight_color.l, text_highlight_color.d)
@@ -101,7 +103,10 @@ export default function NavModalSPTB() {
                                             variants={nav_link_variants}
                                             fontSize={{ base: "md", md: 'lg' }}
                                             href="/api/auth/login" onClick={() => {
-                                                toast({ duration: 3000, render: () => (<Toast text={"ログインに移動中..."} />) })
+                                                toast({
+                                                    duration: 3000,
+                                                    render: () => (<Toast text={locale === 'en' ? 'Moving to Login...' : 'ログインに移動中...'} />)
+                                                })
                                             }}>ログイン</MotionLink>
                                         <MotionLink
                                             initial="hidden"
@@ -110,8 +115,11 @@ export default function NavModalSPTB() {
                                             // fontSize="xl"
                                             href="/api/auth/login?param=signup"
                                             onClick={() => {
-                                                toast({ duration: 3000, render: () => (<Toast text={"サインアップに移動中..."} />) })
-                                            }}>初めての方は<br /><Text color={highlighColor}>サインアップ</Text>
+                                                toast({
+                                                    duration: 3000,
+                                                    render: () => (<Toast text={locale === 'en' ? 'Moving to Sign in...' : 'サインインに移動中...'} />)
+                                                })
+                                            }}>初めての方は<br /><Text color={highlighColor}>サインイン</Text>
                                         </MotionLink>
                                     </>)
                             }

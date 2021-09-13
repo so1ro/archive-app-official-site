@@ -4,6 +4,7 @@ import PageShell from '@/components/PageShell'
 import { Input, Textarea, Text, Box, Heading, useColorModeValue, Button, useToast } from '@chakra-ui/react'
 import { highlight_color } from '@/styles/colorModeValue'
 import { Toast, ToastError } from '@/components/Toast'
+import { useRouter } from 'next/router'
 
 const Contact = () => {
   const [contact, setContact] = useState({
@@ -17,6 +18,7 @@ const Contact = () => {
   const [{ error }, setError] = useState({ error: { email: '' } })
   const [response, setResponse] = useState({ type: '', message: '', })
   const toast = useToast()
+  const { locale } = useRouter()
 
   const validate = (input) => {
     // Ref : https://emailregex.com/
@@ -55,13 +57,13 @@ const Contact = () => {
       } else {
         setResponse({
           type: 'error',
-          message: '送信中にエラーが発生しました。',
+          message: locale === 'en' ? 'Error occurred in sending...' : '送信中にエラーが発生しました。',
         })
         toast({
           status: 'error',
           isClosable: true,
           duration: 9000,
-          render: () => (<ToastError text={"送信中にエラーが発生しました。"} />)
+          render: () => (<ToastError text={locale === 'en' ? 'Error occurred in sending...' : '送信中にエラーが発生しました。'} />)
         })
       }
 
@@ -74,7 +76,7 @@ const Contact = () => {
         status: 'error',
         isClosable: true,
         duration: 9000,
-        render: () => (<ToastError text={"メッセージは送信されませんでした。"} />)
+        render: () => (<ToastError text={locale === 'en' ? 'Message was not sent...' : 'メッセージは送信されませんでした。'} />)
       })
     }
   }

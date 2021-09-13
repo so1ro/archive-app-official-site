@@ -234,7 +234,7 @@ export default function Account({ allPrices, landingPageText }: { allPrices: All
     )
   }
 
-  // サインアップ後、サブスクリプション・ワンペイ永久ご視聴ともに未購入
+  // サインイン後、サブスクリプション・ワンペイ永久ご視聴ともに未購入
   if (!isLoading && !isMetadataLoading && !Subscription_Detail && !One_Pay_Detail && !temporaryPaidCheck) {
     return (
       <PageShell customPT={null} customSpacing={null}>

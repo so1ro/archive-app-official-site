@@ -65,12 +65,17 @@ export default function PriceList({ user, allPrices, annotation, isOnePayPermane
                     // Framer //
                     whileHover={{ scale: 1.1 }}
                     onClick={() => {
-                        toast({ duration: 3000, render: () => (<Toast text={user ? "チェックアウトセッションに移動中..." : "サインアップに移動中..."} />) })
+                        toast({
+                            duration: 3000,
+                            render: () => (<Toast text={user ?
+                                (locale === 'en' ? 'Moving to Checkout...' : 'チェックアウトセッションに移動中...') :
+                                (locale === 'en' ? 'Moving to Sign in...' : 'サインインに移動中...')} />)
+                        })
                         if (user) handleCheckout(price.id, price.type)
                     }}>
                     {user ?
                         (locale === 'en' ? 'Subscribe' : '購入') :
-                        (locale === 'en' ? 'Sign in' : 'サインアップ・購入')}
+                        (locale === 'en' ? 'Sign in' : 'サインイン・購入')}
                 </MotionButton>
             )
         }

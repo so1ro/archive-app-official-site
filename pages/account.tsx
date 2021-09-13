@@ -6,8 +6,6 @@ import { useUser } from '@auth0/nextjs-auth0'
 import { useUserMetadata } from '@/context/useUserMetadata'
 import { fetchAllPrices } from '@/hook/getStaticProps'
 import { postData } from '@/utils/helpers'
-import PriceList from '@/components/PriceList'
-import { Toast } from '@/components/Toast'
 import { fetchContentful } from '@/hook/contentful'
 import { query_applyText, query_topCondition } from '@/hook/contentful-queries'
 import { bg_color, highlight_color, text_color, text_highlight_color } from '@/styles/colorModeValue'
@@ -16,6 +14,8 @@ import { Circle, Button, Code, Box, Grid, Center, Text, Heading, useToast, Stack
 import PageShell from '@/components/PageShell'
 import LoadingSpinner from '@/components/Spinner'
 import ApplyForm from '@/components/ApplyForm'
+import PriceList from '@/components/PriceList'
+import { Toast } from '@/components/Toast'
 import Condition from '@/components/Condtion'
 
 export default function Account({ applyText, allPrices, condition, }:
@@ -334,7 +334,7 @@ export default function Account({ applyText, allPrices, condition, }:
   //     )
   //   }
 
-  //   // サインアップ後、サブスクリプション・ワンペイ永久ご視聴ともに未購入
+  //   // サインイン後、サブスクリプション・ワンペイ永久ご視聴ともに未購入
   //   if (!isLoading && !isMetadataLoading && !Subscription_Detail && !One_Pay_Detail && !temporaryPaidCheck) {
   //     return (
   //       <PageShell customPT={null} customSpacing={null}>
