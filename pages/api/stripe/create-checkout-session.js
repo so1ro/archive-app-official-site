@@ -5,7 +5,7 @@ import { parseJSON } from 'date-fns'
 const domain = process.env.NEXT_PUBLIC_DOMAIN
 
 const createCheckoutSession = async (req, res) => {
-  const { price, type, user_uuid, user_email, } = JSON.parse(req.body)
+  const { price, type, user_uuid, user_email, lang } = JSON.parse(req.body)
 
   if (req.method === 'POST') {
     // See https://stripe.com/docs/api/checkout/sessions/create
@@ -30,8 +30,8 @@ const createCheckoutSession = async (req, res) => {
         allow_promotion_codes: true,
         // billing_address_collection: 'required',
         // subscription_data: {},
-        success_url: `${domain}/account/?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${domain}/account/`
+        success_url: `${domain}/${lang}/account/?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${domain}/${lang}/account/`
       })
 
       return res.status(200).json({ sessionId: session.id })

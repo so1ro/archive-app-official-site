@@ -33,7 +33,6 @@ const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 				</div>`,
 			text: req.body.message,
 		}
-		console.log('mailData:', mailData)
 
 		const transporter = nodemailer.createTransport({
 			port: 465,
@@ -51,7 +50,7 @@ const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 					res.status(400)
 					return res.send({ error: { message: err } })
 				}
-				else console.log(info)
+				// else console.log(info)
 			})
 			res.status(200).send({ success: { message: 'mail was sent' } })
 

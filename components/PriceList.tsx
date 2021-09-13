@@ -11,12 +11,16 @@ import { Toast } from '@/components/Toast'
 export default function PriceList({ user, allPrices, annotation, isOnePayPermanent }) {
 
     const toast = useToast()
+    const { locale } = useRouter()
     const { colorMode } = useColorMode()
     const priceCardColor = useColorModeValue(price_card_color.l, price_card_color.d)
     const oneTimeCardColor = '#e63946'
     const cardBorder = colorMode === 'light' ? '1px' : '0px'
     const highlighColor = useColorModeValue(highlight_color.l, highlight_color.d)
     // const criteriaOnePayPrice = allPrices.find(price => price.type === 'one_time').unit_amount
+
+    const currency = locale === 'en' ? 'usd' : 'jpy'
+    const allFilteredPrices = allPrices.filter(price => price.currency === currency)
 
     const handleCheckout = async (price, type) => {
         // setPriceIdLoading(price.id)
@@ -28,6 +32,7 @@ export default function PriceList({ user, allPrices, annotation, isOnePayPermane
                     type,
                     user_uuid: user.sub,
                     user_email: user.email,
+                    lang: locale === 'en' ? 'en' : 'ja',
                     // criteriaOnePayPrice
                 }
                 // token: session.access_token
@@ -63,7 +68,9 @@ export default function PriceList({ user, allPrices, annotation, isOnePayPermane
                         toast({ duration: 3000, render: () => (<Toast text={user ? "チェックアウトセッションに移動中..." : "サインアップに移動中..."} />) })
                         if (user) handleCheckout(price.id, price.type)
                     }}>
-                    {user ? '購入' : 'サインアップ・購入'}
+                    {user ?
+                        (locale === 'en' ? 'Subscribe' : '購入') :
+                        (locale === 'en' ? 'Sign in' : 'サインアップ・購入')}
                 </MotionButton>
             )
         }
@@ -80,9 +87,12 @@ export default function PriceList({ user, allPrices, annotation, isOnePayPermane
     }
 
     return (
-        <div>
-            <Grid gap={3} gridTemplateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }} mb={3}>
-                {allPrices.map(price => (
+        <Box>
+            <Grid
+                gap={3} gridTemplateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }} mb={3}
+                d={allFilteredPrices.length === 1 ? 'block' : 'grid'} maxW={allFilteredPrices.length === 1 ? '360px' : ''}
+                margin={allFilteredPrices.length === 1 ? '0 auto' : '0'}>
+                {allFilteredPrices.map(price => (
                     <Flex
                         direction='column'
                         key={price.id}
@@ -96,11 +106,18 @@ export default function PriceList({ user, allPrices, annotation, isOnePayPermane
                         d={price.type !== "recurring" && isOnePayPermanent ? 'none' : 'flex'}
                     >
                         <HStack spacing={1} align='baseline' py={{ base: 2, md: 4 }}>
-                            <Text letterSpacing='-1px' fontSize={{ base: '3xl', lg: '4xl' }}>{price.unit_amount}</Text>
-                            <Text>{price.type === "recurring" ? '円／月' : '円'}</Text>
+                            {locale === 'en' && <Text fontSize={{ base: '2xl' }}>$</Text>}
+                            <Text letterSpacing='-1px' fontSize={{ base: '3xl', lg: '4xl' }}>
+                                {locale === 'en' ? (price.unit_amount / 100).toFixed(2) : price.unit_amount}
+                            </Text>
+                            <Text>{
+                                price.type === "recurring" ?
+                                    (locale === 'en' ? '/ month' : '円／月') :
+                                    (locale === 'en' ? '' : '円')
+                            }</Text>
                         </HStack>
                         <Center fontSize='xs' py={0} color='#fff' w='full' bg={price.type === "recurring" ? priceCardColor : oneTimeCardColor}>
-                            サブスクリプション
+                            {locale === 'en' ? 'Subscription' : 'サブスクリプション'}
                             {/* {price.type === "recurring" ? 'サブスクリプション' : 'ワンペイ永久ご視聴'} */}
                         </Center>
                         <Box px={6} py={6} flexGrow={1}>{price.nickname}</Box>
@@ -109,6 +126,6 @@ export default function PriceList({ user, allPrices, annotation, isOnePayPermane
                 ))}
             </Grid>
             {!isOnePayPermanent && <Text fontSize={{ base: 'xs', md: 'sm' }} color={useColorModeValue(highlight_color.l, highlight_color.d)}>{annotation}</Text>}
-        </div>
+        </Box>
     )
 }

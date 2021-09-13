@@ -51,7 +51,7 @@ export default function Home(
         </Box>
         <Plan badge={plan.plan02[locale].badge} title={plan.plan02[locale].title} text={plan.plan02[locale].text} />
         <Plan badge={plan.option[locale].badge} title={plan.option[locale].title} text={plan.option[locale].text} />
-        {!isLoading && !user && <SigninApplyButton buttonText={locale === 'en' ? 'Sing in / Apply' : 'サインイン・お申し込み'} annotation={applyAnnotation[locale]} />}
+        {!isLoading && !user && <SigninApplyButton buttonText={locale === 'en' ? 'Sign in / Apply' : 'サインイン・お申し込み'} annotation={applyAnnotation[locale]} />}
         {!isLoading && user && <Box w='full' maxW='840px'><ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} /></Box>}
         <Condition condition={condition} />
       </PageShell>

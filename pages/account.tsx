@@ -133,12 +133,14 @@ export default function Account({ applyText, allPrices, condition, }:
             <Box {...stateCss} color={(currentState() === 'start') && textHighlightColor}>{locale === 'en' ? 'Start' : 'スタート'}</Box>
           </Stack>
         </VStack>
+        {/* Apply Status */}
         {(currentState() === 'apply') &&
           <Box w='full' maxW='840px'>
             <ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} />
             <Divider my={36} />
             <Condition condition={condition} />
           </Box>}
+        {/* Check Status */}
         {(currentState() === 'check') &&
           <Box>
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
@@ -146,15 +148,18 @@ export default function Account({ applyText, allPrices, condition, }:
               'お申し込みを受領いたしました。\n審査に通過した場合、一週間以内にメールにてご連絡をさせていただきます。'}</Text>
             {/* ここに以下を追加。申し込みプラン、SNS url、SNS統合希望の有無、創作物のタイプ、メッセージ */}
           </Box>}
+        {/* Payment Status */}
         {(currentState() === 'payment' && !router.query?.session_id) &&
           <Box>
-            <Text whiteSpace='pre-wrap'>{locale === 'en' ?
-              '以下、お支払が開始されますと、ご契約成立となります。最初の2ヶ月間は無料です。' :
-              'Please start paying from the link below. The payment will not happen in the first 2 months.'}</Text>
+            <Text whiteSpace='pre-wrap' mb={16}>{locale === 'en' ?
+              'Please start paying from the link below. The payment will not happen in the first 2 months.' :
+              '以下、お支払が開始されますと、ご契約成立となります。最初の2ヶ月間は、アプリ製作期間として無料です。'}</Text>
             {/* ここに以下を追加。Stripe Checkout Button 申し込みプラン、SNS url、SNS統合希望の有無、創作物のタイプ、メッセージ */}
-            <PriceList user={user} allPrices={allPrices}
-              annotation={null}
-              isOnePayPermanent={false} />
+            <Box>
+              <PriceList user={user} allPrices={allPrices}
+                annotation={null}
+                isOnePayPermanent={false} />
+            </Box>
           </Box>}
         {/* Fallback for Payment complished but not progressing to "Start" state */}
         {(currentState() === 'payment' && router.query?.session_id) &&
@@ -163,11 +168,12 @@ export default function Account({ applyText, allPrices, condition, }:
               'Your subscription was copmpleted. But your status was not changed.\nSorry for that. Could you please send an email to the following email address. \nmasamichi.kagaya.ap+archive-app-official@gmail.com' :
               'お支払いは完了しましたが、ネットワーク障害によりステータスが変更されませんでした。\nお手数をおかけして申し訳ございません。迅速に対応いたしますので、次のアドレスまでご連絡ください。\nmasamichi.kagaya.ap+archive-app-official@gmail.com'}</Text>
           </Box>}
+        {/* Start Status */}
         {(currentState() === 'start') &&
           <Box>
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
-              '' :
-              ''}</Text>
+              'Let\'s start to work together on your Archive app! Please check our email sent to you.' :
+              'ご契約が成立いたしました。メールをお送りしますので、ご確認ください。'}</Text>
             {/* ここに以下を追加。アーカイブアプリのURL、プラン、SNS url、SNS統合希望の有無、創作物のタイプ */}
           </Box>}
 

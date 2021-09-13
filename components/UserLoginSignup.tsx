@@ -25,7 +25,7 @@ export default function UserLoginSignup() {
                     onClick={() => {
                         toast({ duration: 3000, render: () => (<Toast text={"サインアップに移動中..."} />) })
                     }}>
-                    <Text color={locale === 'en' ? highlighColor : ''}>{locale === 'en' ? 'Sing up' : '初めての方は'}</Text>
+                    <Text color={locale === 'en' ? highlighColor : ''}>{locale === 'en' ? 'Sign in' : '初めての方は'}</Text>
                     <Text color={locale === 'en' ? '' : highlighColor}>{locale === 'en' ? 'or' : 'サインアップ'}</Text>
                 </Link>
                 <Link href="/api/auth/login">

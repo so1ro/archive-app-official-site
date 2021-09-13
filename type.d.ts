@@ -92,17 +92,18 @@ interface user_Detail {
   isLaunched: boolean
   plan: boolean
 }
+interface AllPrices {
+  id?: string
+  nickname?: string
+  unit_amount?: number
+  type?: string
+  recurring?: object
+  active?: boolean
+  livemode?: boolean
+  currency?: string
+}
 
 ////////
-interface AllPrices {
-  id: string | null;
-  nickname: string | null;
-  unit_amount: number | null;
-  type: string | null;
-  recurring: object | null;
-  active: boolean | null;
-  livemode: boolean | null;
-}
 
 interface ArchivePath {
   id: string;

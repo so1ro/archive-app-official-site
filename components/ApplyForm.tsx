@@ -32,10 +32,8 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 			const json = await res.json()
 
 			// api/auth/upsert-user-metadata
-			const sendBody = {
-				auth0_UUID,
-				meta: { isApplied: true, plan: values.plan }
-			}
+			const { name, plan, snsIntegration, snsURL, type, } = values
+			const sendBody = { auth0_UUID, meta: { isApplied: true, name, plan, snsIntegration, snsURL, type, } }
 			await fetch('/api/auth/upsert-user-metadata', {
 				method: 'POST',
 				body: JSON.stringify(sendBody),
@@ -87,9 +85,6 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 					name: Yup.string()
 						.max(30, 'Must be 30 characters or less')
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
-					// email: Yup.string()
-					// 	.email(`${locale === 'en' ? '* Invalid email address' : '※ 有効なメールアドレスをご記入ください。'}`)
-					// 	.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					plan: Yup.string()
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					snsIntegration: Yup.string()
