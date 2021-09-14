@@ -99,7 +99,7 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					message: Yup.string()
 						.max(2000, 'Must be 2000 characters or less')
-						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
+					// .required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 				})}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(() => {
@@ -127,7 +127,7 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 							{<option value={'no'}>{locale === 'en' ? 'No' : 'いいえ'}</option>}
 							{<option value={'considering'}>{locale === 'en' ? 'Still considering' : 'まだ検討中'}</option>}
 						</FormikSelect>
-						<FormikInput label={locale === 'en' ? 'URL of your SNS' : 'あなたのSNSのURL'}
+						<FormikInput label={locale === 'en' ? 'URL of your main SNS' : 'あなたのプロジェクトにおける最も重要なSNS (URL)'}
 							name="snsURL" type="text"
 							mb={3} variant="flushed" borderColor='gray.500'
 							focusBorderColor={highlightColor} />
@@ -138,7 +138,7 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 						<FormikSelect label={locale === 'en' ? 'Creation Type' : '創作物のタイプ'} name="type">
 							{applyText.type[locale].map(type => <option value={type} key={type}>{type}</option>)}
 						</FormikSelect>
-						<FormikTextArea label={locale === 'en' ? 'Message' : 'メッセージ'} name="message" whiteSpace='pre-wrap'
+						<FormikTextArea label={locale === 'en' ? 'Message (Question or other SNS urls other than above)' : '備考（ご質問や上記以外のSNS）'} name="message" whiteSpace='pre-wrap'
 							px={6} py={4} mb={3}
 							size="xl" rows={10}
 							borderColor='gray.500'

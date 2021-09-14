@@ -10,7 +10,10 @@ import { fetchContentful } from '@/hook/contentful'
 import { query_applyText, query_topCondition } from '@/hook/contentful-queries'
 import { bg_color, highlight_color, text_color, text_highlight_color } from '@/styles/colorModeValue'
 
-import { Circle, Button, Code, Box, Grid, Center, Text, Heading, useToast, Stack, VStack, HStack, useColorModeValue, Table, Tbody, Tr, Td, TableCaption, useBreakpointValue, Spinner, Divider } from '@chakra-ui/react'
+import {
+  Box, Text, useToast, Stack, VStack, useColorModeValue, Table, Tbody, Tr, Td,
+  useBreakpointValue, Spinner, Divider,
+} from '@chakra-ui/react'
 import PageShell from '@/components/PageShell'
 import LoadingSpinner from '@/components/Spinner'
 import ApplyForm from '@/components/ApplyForm'
@@ -43,6 +46,7 @@ export default function Account({ applyText, allPrices, condition, }:
   const bgColor = useColorModeValue(bg_color.l, bg_color.d)
   const textColor = useColorModeValue(text_color.l, text_color.d)
   const textHighlightColor = useColorModeValue(text_highlight_color.l, text_highlight_color.d)
+  const tableBorderColor = useColorModeValue('gray.100', 'gray.700')
   const stateCss = { fontWeight: 'bold', borderRadius: '3xl', border: `2px solid `, px: 6, py: 2, d: 'inline-block', mb: 5 }
 
   // Stat
@@ -120,7 +124,8 @@ export default function Account({ applyText, allPrices, condition, }:
 
   if (!isMetadataLoading && user) {
     return (
-      <PageShell customPT={null} customSpacing={{ base: 24 }}>
+      <PageShell customPT={null} customSpacing={{ base: 36 }}>
+
         <VStack w='full' spacing={16}>
           <Box fontWeight='medium' fontSize='2xl' w='full'>
             {locale === 'en' ? `${user.email}` : `${user.email}　様`}
@@ -133,6 +138,7 @@ export default function Account({ applyText, allPrices, condition, }:
             <Box {...stateCss} color={(currentState() === 'start') && textHighlightColor}>{locale === 'en' ? 'Start' : 'スタート'}</Box>
           </Stack>
         </VStack>
+
         {/* Apply Status */}
         {(currentState() === 'apply') &&
           <Box w='full' maxW='840px'>
@@ -146,14 +152,13 @@ export default function Account({ applyText, allPrices, condition, }:
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
               'Your application was successfully sent. We are now checking your project.\nIf it is passed, you will receive an email in a week.' :
               'お申し込みを受領いたしました。\n審査に通過した場合、一週間以内にメールにてご連絡をさせていただきます。'}</Text>
-            {/* ここに以下を追加。申し込みプラン、SNS url、SNS統合希望の有無、創作物のタイプ、メッセージ */}
           </Box>}
         {/* Payment Status */}
         {(currentState() === 'payment' && !router.query?.session_id) &&
           <Box>
             <Text whiteSpace='pre-wrap' mb={16}>{locale === 'en' ?
               'Please start paying from the link below. The payment will not happen in the first 2 months.' :
-              '以下、お支払が開始されますと、ご契約成立となります。最初の2ヶ月間は、アプリ製作期間として無料です。'}</Text>
+              '以下、お支払を開始されますと、ご契約成立となります。最初の2ヶ月間は、アプリ製作期間として無料です。'}</Text>
             {/* ここに以下を追加。Stripe Checkout Button 申し込みプラン、SNS url、SNS統合希望の有無、創作物のタイプ、メッセージ */}
             <Box>
               <PriceList user={user} allPrices={allPrices}
@@ -165,7 +170,7 @@ export default function Account({ applyText, allPrices, condition, }:
         {(currentState() === 'payment' && router.query?.session_id) &&
           <Box>
             <Text whiteSpace='pre-wrap' color={textHighlightColor}>{locale === 'en' ?
-              'Your subscription was copmpleted. But your status was not changed.\nSorry for that. Could you please send an email to the following email address. \nmasamichi.kagaya.ap+archive-app-official@gmail.com' :
+              'Your subscription was copmpleted. But your status was not changed because of network fault.\nSorry for that. Could you please send an email to the following email address. \nmasamichi.kagaya.ap+archive-app-official@gmail.com' :
               'お支払いは完了しましたが、ネットワーク障害によりステータスが変更されませんでした。\nお手数をおかけして申し訳ございません。迅速に対応いたしますので、次のアドレスまでご連絡ください。\nmasamichi.kagaya.ap+archive-app-official@gmail.com'}</Text>
           </Box>}
         {/* Start Status */}
@@ -174,10 +179,25 @@ export default function Account({ applyText, allPrices, condition, }:
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
               'Let\'s start to work together on your Archive app! Please check our email sent to you.' :
               'ご契約が成立いたしました。メールをお送りしますので、ご確認ください。'}</Text>
-            {/* ここに以下を追加。アーカイブアプリのURL、プラン、SNS url、SNS統合希望の有無、創作物のタイプ */}
           </Box>}
 
-        {/* ここに以下を追加。アーカイブアプリのURL、プラン、SNS url、SNS統合希望の有無、創作物のタイプ */}
+        {/* Showing Client Application details after applying  */}
+        {currentState() !== 'apply' &&
+          <Box w='full' maxW='640px'>
+            <Text textAlign='center' mb={5}>{locale === 'en' ? 'Your apply' : 'お申込み頂いた内容 '}</Text>
+            <Table variant="striped" size={tableSize} border='1px solid' borderColor={tableBorderColor}>
+              <Tbody>
+                <Tr> <Td>{locale === 'en' ? 'Name' : 'お名前'}</Td> <Td isNumeric>{User_Detail?.name}</Td> </Tr>
+                <Tr> <Td>{locale === 'en' ? 'Plan' : 'プラン'}</Td> <Td isNumeric>{User_Detail?.plan.replace(new RegExp(/_/, 'gi'), '.')}</Td> </Tr>
+                <Tr> <Td>{locale === 'en' ? 'SNS integration' : 'SNSの統合'}</Td> <Td isNumeric>{User_Detail?.snsIntegration}</Td> </Tr>
+                <Tr> <Td>SNS</Td> <Td isNumeric>{User_Detail?.snsURL}</Td> </Tr>
+                <Tr> <Td>{locale === 'en' ? 'Type' : '創作物のタイプ'}</Td> <Td isNumeric>{User_Detail?.type}</Td> </Tr>
+              </Tbody>
+            </Table>
+            {/* <Divider my={36} />
+            <Condition condition={condition} /> */}
+          </Box>
+        }
 
       </PageShell>
     )
