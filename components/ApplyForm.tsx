@@ -110,7 +110,7 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 
 				{({ errors, touched }) => (
 					<Form>
-						<FormikInput label={locale === 'en' ? 'Name (Author name)' : 'お名前（作家名）'}
+						<FormikInput label={locale === 'en' ? 'Name (or Author name)' : 'お名前（または 作家名）'}
 							name="name" type="text" mb={3} variant="flushed" borderColor='gray.500'
 							focusBorderColor={highlightColor} />
 						<FormikInput label={locale === 'en' ? 'Email address' : 'メールアドレス'}
