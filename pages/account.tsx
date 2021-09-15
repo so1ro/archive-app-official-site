@@ -12,7 +12,7 @@ import { bg_color, highlight_color, text_color, text_highlight_color } from '@/s
 
 import {
   Box, Text, useToast, Stack, VStack, useColorModeValue, Table, Tbody, Tr, Td,
-  useBreakpointValue, Spinner, Divider,
+  useBreakpointValue, Spinner, Divider, Center, Button,
 } from '@chakra-ui/react'
 import PageShell from '@/components/PageShell'
 import LoadingSpinner from '@/components/Spinner'
@@ -82,14 +82,14 @@ export default function Account({ applyText, allPrices, condition, }:
   // }, [user])
 
   // Function
-  // const handleCustomerPortal = async (customer_Id: string) => {
-  //   const { url, error } = await postData({
-  //     url: '/api/stripe/create-portal-link',
-  //     data: { customer_Id }
-  //   })
-  //   if (error) return alert(error.message)
-  //   window.location.assign(url)
-  // }
+  const handleCustomerPortal = async (customer_Id: string) => {
+    const { url, error } = await postData({
+      url: '/api/stripe/create-portal-link',
+      data: { customer_Id }
+    })
+    if (error) return alert(error.message)
+    window.location.assign(url)
+  }
 
   // const isPermanentSubscription = (Subscription_Detail) => {
   //   return (parseFloat(Subscription_Detail.criteria_OnePay_price) - User_Detail.past_charged_fee) <= 0
@@ -97,18 +97,18 @@ export default function Account({ applyText, allPrices, condition, }:
 
   // const indexBgColor = useColorModeValue(border_color.l, border_color.d)
 
-  // // Component
-  // const CustomerPortalButton = () => (
-  //   <Center>
-  //     <Button color='#fff' bg='#69b578' fontSize={{ base: 'xs', sm: 'md' }} onClick={() => {
-  //       handleCustomerPortal(Subscription_Detail.customer_Id)
-  //       toast({ duration: 3000, render: () => (<Toast text={"カスタマーポータルに移動中..."} />) })
-  //     }}>
-  //       {(Subscription_Detail.cancel_at_period_end || subscription_state === 'paused') ?
-  //         `サブスクリプションの再開 ／ お支払い履歴` : `プランの変更・キャンセル・一時停止 ／ 履歴`}
-  //     </Button>
-  //   </Center>
-  // )
+  // Component
+  const CustomerPortalButton = () => (
+    <Center>
+      <Button color='#fff' bg='#69b578' fontSize={{ base: 'xs', sm: 'md' }} onClick={() => {
+        handleCustomerPortal(Subscription_Detail.customer_Id)
+        toast({ duration: 3000, render: () => (<Toast text={"カスタマーポータルに移動中..."} />) })
+      }}>
+        {(Subscription_Detail.cancel_at_period_end || subscription_state === 'paused') ?
+          `サブスクリプションの再開 ／ お支払い履歴` : `プランの変更・キャンセル・一時停止 ／ 履歴`}
+      </Button>
+    </Center>
+  )
 
   // Function
   const currentState = (): any => {
@@ -140,14 +140,14 @@ export default function Account({ applyText, allPrices, condition, }:
         </VStack>
 
         {/* Apply Status */}
-        {(currentState() === 'apply') &&
+        {currentState() === 'apply' &&
           <Box w='full' maxW='840px'>
             <ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} />
             <Divider my={36} />
             <Condition condition={condition} />
           </Box>}
         {/* Check Status */}
-        {(currentState() === 'check') &&
+        {currentState() === 'check' &&
           <Box>
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
               'Your application was successfully sent. We are now checking your project.\nIf it is passed, you will receive an email in a week.' :
@@ -174,7 +174,7 @@ export default function Account({ applyText, allPrices, condition, }:
               'お支払いは完了しましたが、ネットワーク障害によりステータスが変更されませんでした。\nお手数をおかけして申し訳ございません。迅速に対応いたしますので、次のアドレスまでご連絡ください。\nmasamichi.kagaya.ap+archive-app-official@gmail.com'}</Text>
           </Box>}
         {/* Start Status */}
-        {(currentState() === 'start') &&
+        {currentState() === 'start' &&
           <Box>
             <Text whiteSpace='pre-wrap'>{locale === 'en' ?
               'Let\'s start to work together on your Archive app! Please check our email sent to you.' :
@@ -198,6 +198,8 @@ export default function Account({ applyText, allPrices, condition, }:
             <Condition condition={condition} /> */}
           </Box>
         }
+        {currentState() === 'start' && Subscription_Detail?.customer_Id &&
+          <Box><CustomerPortalButton /></Box>}
 
       </PageShell>
     )
