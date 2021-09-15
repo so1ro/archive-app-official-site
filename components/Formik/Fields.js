@@ -74,7 +74,7 @@ export const FormikSelect = ({ label, ...props }) => {
 			</HStack>
 			<Select
 				{...field} {...props}
-				d={{ base: 'none', sm: 'inline-block' }}
+				d='inline-block'
 				placeholder={placeholder}
 				w='none'
 				borderColor="gray.500"

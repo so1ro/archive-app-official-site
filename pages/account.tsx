@@ -47,7 +47,7 @@ export default function Account({ applyText, allPrices, condition, }:
   const textColor = useColorModeValue(text_color.l, text_color.d)
   const textHighlightColor = useColorModeValue(text_highlight_color.l, text_highlight_color.d)
   const tableBorderColor = useColorModeValue('gray.100', 'gray.700')
-  const stateCss = { fontWeight: 'bold', borderRadius: '3xl', border: `2px solid `, px: 6, py: 2, d: 'inline-block', mb: 5 }
+  const statusCss = { fontWeight: 'bold', borderRadius: '3xl', border: '2px solid', px: { base: 3, sm: 6 }, py: { base: 1, sm: 2 }, d: 'inline-block', mb: 5 }
 
   // Stat
   // const [{ user }, setIsFavoriteArchiveLoading] = useState<{ isFavoriteArchiveLoading: boolean }>({ isFavoriteArchiveLoading: false })
@@ -130,12 +130,12 @@ export default function Account({ applyText, allPrices, condition, }:
           <Box fontWeight='medium' fontSize='2xl' w='full'>
             {locale === 'en' ? `${user.email}` : `${user.email}　様`}
           </Box>
-          <Stack d='block' textAlign='center' shouldWrapChildren isInline>
-            <Box><Box {...stateCss} color={(currentState() === 'apply') && textHighlightColor} >{locale === 'en' ? 'Apply' : '申込'}</Box> ・・・ </Box>
-            <Box><Box {...stateCss} color={(currentState() === 'check') && textHighlightColor}>{locale === 'en' ? 'Check' : '審査'}</Box> ・・・ </Box>
+          <Stack d='block' fontSize={{ base: 'xs', sm: 'medium' }} textAlign='center' shouldWrapChildren isInline>
+            <Box><Box {...statusCss} color={(currentState() === 'apply') && textHighlightColor} >{locale === 'en' ? 'Apply' : '申込'}</Box> ・・・ </Box>
+            <Box><Box {...statusCss} color={(currentState() === 'check') && textHighlightColor}>{locale === 'en' ? 'Check' : '審査'}</Box> ・・・ </Box>
             {User_Detail?.plan === 'Plan_2' &&
-              <Box><Box {...stateCss} color={(currentState() === 'payment') && textHighlightColor}>{locale === 'en' ? 'Payment' : 'お支払'}</Box> ・・・ </Box>}
-            <Box {...stateCss} color={(currentState() === 'start') && textHighlightColor}>{locale === 'en' ? 'Start' : 'スタート'}</Box>
+              <Box><Box {...statusCss} color={(currentState() === 'payment') && textHighlightColor}>{locale === 'en' ? 'Payment' : 'お支払'}</Box> ・・・ </Box>}
+            <Box {...statusCss} color={(currentState() === 'start') && textHighlightColor}>{locale === 'en' ? 'Start' : 'スタート'}</Box>
           </Stack>
         </VStack>
 
