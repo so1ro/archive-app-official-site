@@ -27,6 +27,7 @@
 // import { postData } from '@/utils/helpers'
 // import { ToastError } from '@/components/Toast'
 
+export default function YouTubeRoute() { return (<div>YouTube</div>) }
 // export default function YouTubeRoute({
 //     filteredDescArchive,
 //     filteredAscArchive,

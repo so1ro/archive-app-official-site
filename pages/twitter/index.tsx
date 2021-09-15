@@ -13,6 +13,7 @@
 // import { card_background_color, highlight_color } from '@/styles/colorModeValue'
 // import NavSNS from '@/components/NavSNS'
 
+export default function Twitter() { return (<div>Twitter</div>) }
 // export default function Twitter({ twitterAST }) {
 
 //     // const navItems = items.map(item => ({ id: item.sys.id, name: item.name, path: item.path }))

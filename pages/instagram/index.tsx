@@ -11,6 +11,7 @@
 
 // import { SRLWrapper } from 'simple-react-lightbox-pro'
 
+export default function Instagram() { return (<div>Instagram</div>) }
 // export default function Instagram({ items, images }: { items: InstagramItem[], images: InstagramImage[] }) {
 
 //     const author = items[0]
