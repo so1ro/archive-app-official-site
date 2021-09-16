@@ -105,7 +105,7 @@ export default function Account({ applyText, allPrices, condition, }:
         toast({ duration: 3000, render: () => (<Toast text={"カスタマーポータルに移動中..."} />) })
       }}>
         {(Subscription_Detail.cancel_at_period_end || subscription_state === 'paused') ?
-          `サブスクリプションの再開 ／ お支払い履歴` : `プランの変更・キャンセル・一時停止 ／ 履歴`}
+          `お支払の再開 ／ 履歴` : `お支払のキャンセル ／ 履歴`}
       </Button>
     </Center>
   )
@@ -387,6 +387,7 @@ export default function Account({ applyText, allPrices, condition, }:
   //   return <LoadingSpinner />
   // }
 }
+
 export const getStaticProps: GetStaticProps = async () => {
   // get Subscription Plans from Stripe
   const { archiveAppApplyCollection: { items } } = await fetchContentful(query_applyText) // This is for fetching Annotation under the price list
