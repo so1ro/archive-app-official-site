@@ -68,7 +68,7 @@ export default function NavModalSPTB() {
                                         animate="visible"
                                         variants={nav_link_variants}
                                         fontSize={{ base: "md", md: 'lg' }}
-                                    >{link.text}</MotionLink>
+                                    >{link.text[locale]}</MotionLink>
                                 </ActiveLink>
                             ))}
                             {isLoading ? '' :

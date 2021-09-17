@@ -10,40 +10,50 @@ import { useToast } from "@chakra-ui/toast"
 import { Toast, ToastError } from '@/components/Toast'
 import { highlight_color, text_color } from '@/styles/colorModeValue'
 
-export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
+export default function ApplyForm(
+	{ applyText, userEmail, auth0_UUID }: { applyText: applyText, userEmail?: string, auth0_UUID?: string }
+) {
 
 	// const [response, setResponse] = useState({ type: '', message: '', })
 	const highlightColor = useColorModeValue(highlight_color.l, highlight_color.d)
 	const blurTextColor = useColorModeValue(text_color.l, text_color.d)
 	const toast = useToast()
-	const { locale } = useRouter()
+	const { locale, route } = useRouter()
 
 	// Function
 	const handleSubmit = async (values) => {
 
 		try {
-			toast({ duration: 6000, render: () => (<Toast text={locale === 'en' ? "Sending your application..." : "申請を送信中..."} />) })
+			toast({
+				duration: 6000, render: () => (
+					<Toast text={route.includes('account') ?
+						locale === 'en' ? "Sending your application..." : "申請を送信中..." :
+						locale === 'en' ? "Sending your message..." : "お問合せを送信中..."} />
+				)
+			})
 			// api/contact
 			const res = await fetch('/api/contact', {
 				method: 'POST',
-				body: JSON.stringify(values),
+				body: JSON.stringify({ ...values, route }),
 				headers: { 'Content-Type': 'application/json' },
 			})
 			const json = await res.json()
 
 			// api/auth/upsert-user-metadata
-			const { name, plan, snsIntegration, snsURL, type, } = values
-			const sendBody = { auth0_UUID, meta: { isApplied: true, name, plan, snsIntegration, snsURL, type, } }
-			await fetch('/api/auth/upsert-user-metadata', {
-				method: 'POST',
-				body: JSON.stringify(sendBody),
-				headers: { 'Content-Type': 'application/json' },
-			})
+			if (route.includes('account')) {
+				const { name, plan, snsIntegration, snsURL, type, } = values
+				const sendBody = { auth0_UUID, meta: { isApplied: true, name, plan, snsIntegration, snsURL, type, } }
+				await fetch('/api/auth/upsert-user-metadata', {
+					method: 'POST',
+					body: JSON.stringify(sendBody),
+					headers: { 'Content-Type': 'application/json' },
+				})
+			}
 
 			if (json.success) {
 				//成功したらsuccessページに飛ぶ
-				Router.reload()
-				// Router.push('/contact_success')
+				if (route.includes('account')) Router.reload()
+				if (route.includes('contact')) Router.push(`/${locale}/contact_success`)
 			} else {
 				toast({
 					status: 'error',
@@ -55,15 +65,12 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 
 		} catch (e) {
 			toast({
-				status: 'error',
-				isClosable: true,
+				description: locale === 'en' ?
+					'Your application was not completed. Could you please send an email to the following email address. We will instantly process it. masamichi.kagaya.ap+archive-app-official@gmail.com' :
+					'ネットワーク障害で申請が完了しませんでした。お手数をおかけして申し訳ございません。迅速に対応いたしますので、次のアドレスまでご連絡ください。masamichi.kagaya.ap+archive-app-official@gmail.com',
+				status: "error",
 				duration: null,
-				render: () => (<ToastError
-					text={
-						locale === 'en' ?
-							'ネットワーク障害で申請が完了しませんでした。お手数をおかけして申し訳ございません。迅速に対応いたしますので、次のアドレスまでご連絡ください。masamichi.kagaya.ap+archive-app-official@gmail.com' :
-							'Your application was not completed. Could you please send an email to the following email address. We will instantly process it. masamichi.kagaya.ap+archive-app-official@gmail.com'
-					} />)
+				isClosable: true,
 			})
 		}
 	}
@@ -73,7 +80,7 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 			<Formik
 				initialValues={{
 					name: '',
-					email: userEmail,
+					email: userEmail ?? '',
 					plan: '',
 					snsIntegration: '',
 					snsURL: '',
@@ -85,16 +92,19 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 					name: Yup.string()
 						.max(30, 'Must be 30 characters or less')
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
+					email: route.includes('contact') ? Yup.string()
+						.email('Invalid email address')
+						.required('Required') : null,
 					plan: Yup.string()
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
-					snsIntegration: Yup.string()
-						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
+					snsIntegration: route.includes('account') ? Yup.string()
+						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`) : null,
 					snsURL: Yup.string()
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
-					followerNumber: Yup.number()
+					followerNumber: route.includes('account') ? Yup.number()
 						.positive(`${locale === 'en' ? '* Please enter positive number.' : '※ 正の整数をご入力ください。'}`)
 						.integer()
-						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
+						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`) : null,
 					type: Yup.string()
 						.required(`${locale === 'en' ? '* Required' : '※ 必須項目です。'}`),
 					message: Yup.string()
@@ -118,27 +128,33 @@ export default function ApplyForm({ applyText, userEmail, auth0_UUID }) {
 							mb={3} variant="unstyled"
 							color={blurTextColor}
 							borderBottom='1px solid' borderRadius={0} pb={2} borderColor='gray.500'
-							value={userEmail} isReadOnly />
+							value={userEmail} isReadOnly={userEmail ? true : false} />
 						<FormikSelect label={locale === 'en' ? 'Plan' : 'プラン'} name="plan">
 							{applyText.plan[locale].map(plan => <option value={plan.value} key={plan.value}>{plan.text}</option>)}
 						</FormikSelect>
-						<FormikSelect label={locale === 'en' ? 'Do you want SNS integration?' : 'SNSの統合もご希望ですか?'} name="snsIntegration">
+						{route.includes('account') && <FormikSelect label={locale === 'en' ? 'Do you want SNS integration?' : 'SNSの統合もご希望ですか?'} name="snsIntegration">
 							{<option value={'yes'}>{locale === 'en' ? 'Yes' : 'はい'}</option>}
 							{<option value={'no'}>{locale === 'en' ? 'No' : 'いいえ'}</option>}
 							{<option value={'considering'}>{locale === 'en' ? 'Still considering' : 'まだ検討中'}</option>}
-						</FormikSelect>
+						</FormikSelect>}
 						<FormikInput label={locale === 'en' ? 'URL of your main SNS' : 'あなたのプロジェクトにおける最も重要なSNS (URL)'}
 							name="snsURL" type="text"
 							mb={3} variant="flushed" borderColor='gray.500'
 							focusBorderColor={highlightColor} />
-						<FormikInput label={locale === 'en' ? 'Current number of followers in your SNS' : 'あなたのSNSの現在のフォロワー数'}
+						{route.includes('account') && <FormikInput label={locale === 'en' ? 'Current number of followers in your SNS' : 'あなたのSNSの現在のフォロワー数'}
 							name="followerNumber" type="text"
 							mb={3} variant="flushed" borderColor='gray.500'
-							focusBorderColor={highlightColor} />
+							focusBorderColor={highlightColor} />}
 						<FormikSelect label={locale === 'en' ? 'Creation Type' : '創作物のタイプ'} name="type">
 							{applyText.type[locale].map(type => <option value={type} key={type}>{type}</option>)}
 						</FormikSelect>
-						<FormikTextArea label={locale === 'en' ? 'Message (Question or other SNS urls other than above)' : '備考（ご質問や上記以外のSNS）'} name="message" whiteSpace='pre-wrap'
+						<FormikTextArea
+							label={
+								route.includes('account') ?
+									locale === 'en' ? 'Message (Question or other SNS urls other than above)' : '備考（ご質問や上記以外のSNS）' :
+									locale === 'en' ? 'Message' : 'メッセージ'
+							}
+							name="message" whiteSpace='pre-wrap'
 							px={6} py={4} mb={3}
 							size="xl" rows={10}
 							borderColor='gray.500'

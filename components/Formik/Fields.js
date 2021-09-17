@@ -54,7 +54,7 @@ export const FormikSelect = ({ label, ...props }) => {
 	let placeholder
 	switch (props.name) {
 		case 'plan':
-			placeholder = locale === 'en' ? 'Please choose your plan' : 'ご検討中のプランをお選びください。'
+			placeholder = locale === 'en' ? 'Please choose your plan on the table' : 'ご検討中のプランをお選びください。'
 			break;
 		case 'type':
 			placeholder = locale === 'en' ? 'Please choose your creation type' : '制作物のタイプをお知らせください。'

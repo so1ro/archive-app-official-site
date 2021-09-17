@@ -5,15 +5,10 @@ import nodemailer from 'nodemailer'
 const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 
-		const regex = new RegExp(/\n/, 'gi') // New line : change \n to <br />
-		const mailData = {
-			from: req.body.email,
-			to: 'masamichi.kagaya.ap+archive-app-official@gmail.com',
-			// Someday combine Apply and Contact with "{req.body.plan ? 'Apply Archive app from' : 'Contact from'}"
-			subject: `Apply Archive app from ${req.body.name}`,
-			// Someday combine Apply and Contact with "{req.body.name && <p> ~ </p>}"
-			html: `
-				<div>
+		const mailhtml = () => {
+			switch (req.body.route) {
+				case '/account':
+					return `<div>
 					<p><b>お名前（作家名）</b></p>
 					<p>${req.body.name}</p><br />
 					<p><b>メールアドレス</b></p>
@@ -28,9 +23,37 @@ const ContactApi = async (req: NextApiRequest, res: NextApiResponse) => {
 					<p>${req.body.followerNumber}</p><br />
 					<p><b>創作物のタイプをお知らせください。</b></p>
 					<p>${req.body.type}</p><br />
+					<p><b>備考（ご質問や上記以外のSNS）</b></p>
+					<p>${req.body.message.replace(regex, '<br />')}</p>
+				</div>`
+
+				case '/contact':
+					return `<div>
+					<p><b>お名前（作家名）</b></p>
+					<p>${req.body.name}</p><br />
+					<p><b>メールアドレス</b></p>
+					<p>${req.body.email}</p><br />
+					<p><b>ご検討中のプランをお選びください。</b></p>
+					<p>${req.body.plan}</p><br />
+					<p><b>あなたのSNSのURL</b></p>
+					<p>${req.body.snsURL}</p><br />
+					<p><b>創作物のタイプをお知らせください。</b></p>
+					<p>${req.body.type}</p><br />
 					<p><b>メッセージ</b></p>
 					<p>${req.body.message.replace(regex, '<br />')}</p>
-				</div>`,
+				</div>`
+			}
+		}
+		const regex = new RegExp(/\n/, 'gi') // New line : change \n to <br />
+		const mailData = {
+			from: req.body.email,
+			to: 'masamichi.kagaya.ap+archive-app-official@gmail.com',
+			// Someday combine Apply and Contact with "{req.body.plan ? 'Apply Archive app from' : 'Contact from'}"
+			subject: req.body.route.includes('account') ?
+				`Apply to Archive app from ${req.body.name}` :
+				`Inquiry to Archive app from ${req.body.name}`,
+			// Someday combine Apply and Contact with "{req.body.name && <p> ~ </p>}"
+			html: mailhtml(),
 			text: req.body.message,
 		}
 
