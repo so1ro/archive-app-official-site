@@ -17,13 +17,14 @@ export default function Hero({ heroText }) {
             bg={`linear-gradient(180deg, rgba(255,255,255,0) ${colorMode === 'light' ? '60%' : '70%'}, rgba(${colorMode === 'light' ? '246,153,87' : '255,255,255'}, 0.24) 100%)`}>
             <Box as='h2'
                 m='0 auto' maxW="1200px"
+                d={{ base: 'none', md: 'block' }}
                 fontSize={{ base: 'xl', sm: '3xl', md: '48px', lg: '64px', '2xl': '72px' }}
                 fontWeight='semibold' textAlign={{ base: 'center', md: 'left' }}
                 whiteSpace='pre-wrap'
                 pb='160px' pl={{ base: 0, md: (!isLargerThan1280 ? 20 : 0) }}>
                 {heroText}
             </Box>
-            <Box pos='relative' w='full' h='84px' minW='1440px' >
+            <Box pos='absolute' bottom={0} w='full' h='84px' minW='1440px' >
                 {colorMode === 'light' && <HeroWaveL w='full' p='absolute' />}
                 {colorMode === 'dark' && <HeroWaveD w='full' p='absolute' />}
             </Box>

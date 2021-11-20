@@ -16,7 +16,7 @@ export default function Philosophy({ text }: { text?: string[] }) {
 			bgColor={useColorModeValue(bg_color_content.l, bg_color_content.d)}
 			marginInlineStart='none'
 			whiteSpace='pre-wrap'>
-			{newLineText.map((p, i) => <ListItem key={i} fontWeight='bold' as='h3'>{p}</ListItem>)}
+			{newLineText.map((p, i) => <ListItem key={i} d={i === 1 ? { base: 'none', md: 'block' } : i === 0 ? { base: 'block', md: 'none' } : 'block'} fontWeight='bold' as='h3'>{p}</ListItem>)}
 		</UnorderedList>
 	)
 }
