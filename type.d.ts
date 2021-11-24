@@ -22,6 +22,10 @@ interface topHeroImages {
   sys?: { id: string }
   url?: string;
 }
+interface topPromoVideoId {
+  en?: string
+  ja?: string
+}
 interface topPlanText {
   plan01?: object
   plan02?: object

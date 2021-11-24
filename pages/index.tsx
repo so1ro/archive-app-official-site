@@ -13,12 +13,13 @@ import {
   query_topHeroText,
   query_applyText,
   query_topHeroImagesJa,
-  query_topHeroImagesEn
+  query_topHeroImagesEn,
+  query_topPromoVideoId
 } from "@/hook/contentful-queries"
 
 import { Box, Container, VStack } from "@chakra-ui/react"
 import PageShell from '@/components/PageShell'
-import TopIntro from '@/components/TopIntro'
+import VideoVimeoLT from '@/components/VideoVimeoLT'
 import Plan from '@/components/Plan'
 import { dailyNum } from '@/utils/helpers'
 import Philosophy from '@/components/Philosophy'
@@ -27,13 +28,12 @@ import Plan01Chart from '@/components/Plan01Chart'
 import SigninApplyButton from '@/components/SigninApplyButton'
 import ApplyForm from '@/components/ApplyForm'
 
-
 export default function Home(
-  { plan, philosophy, condition, chartText, applyAnnotation, heroText, heroImagesJa, heroImagesEn, applyText, }:
+  { plan, philosophy, condition, chartText, applyAnnotation, heroText, heroImagesJa, heroImagesEn, applyText, vimeoId }:
     {
       plan: topPlanText, philosophy: topPhilosophyText, condition: topConditionText,
       chartText: topPlan1ChartText, applyAnnotation: topSigninApplyAnnotation, heroText: topHeroText,
-      heroImagesJa: topHeroImages, heroImagesEn: topHeroImages, applyText: applyText,
+      heroImagesJa: topHeroImages, heroImagesEn: topHeroImages, applyText: applyText, vimeoId: topPromoVideoId
     }
 ) {
 
@@ -46,7 +46,7 @@ export default function Home(
       <Hero heroText={heroText[locale]} heroImages={locale === 'en' ? heroImagesEn : heroImagesJa} />
       <Philosophy text={philosophy[locale]} />
       <PageShell customPT={{ base: 24, lg: 32 }} customSpacing={null} >
-        <TopIntro />
+        <VideoVimeoLT vimeoId={vimeoId[locale]} aspect={null} autoplay={false} borderRadius={12} />
         <Plan badge={plan.plan01[locale].badge} title={plan.plan01[locale].title} text={plan.plan01[locale].text} />
         <Box>
           <Plan badge={plan.plan02[locale].badge} title={plan.plan02[locale].title} text={plan.plan02[locale].text} />
@@ -69,17 +69,19 @@ export const getStaticProps: GetStaticProps = async () => {
   const { archiveAppTopPlan1ChartCollection: { items: plan1ChartText } } = await fetchContentful(query_topChartText)
   const { archiveAppTopSignInApplyCollection: { items: applyAnnotationText } } = await fetchContentful(query_topSigninApplyAnnotation)
   const { archiveAppTopHeroCollection: { items: heroTexts } } = await fetchContentful(query_topHeroText)
-  const { archiveAppApplyCollection: { items } } = await fetchContentful(query_applyText) // This is for fetching Annotation under the price list
+  const { archiveAppApplyCollection: { items: applyTextCollection } } = await fetchContentful(query_applyText) // This is for fetching Annotation under the price list
   const { archiveAppTopHeroImagesJaCollection: { items: heroImagesJaCollection } } = await fetchContentful(query_topHeroImagesJa)
   const { archiveAppTopHeroImagesEnCollection: { items: heroImagesEnCollection } } = await fetchContentful(query_topHeroImagesEn)
+  const { archiveAppTopPromotionVideoCollection: { items: vimeoIdCollection } } = await fetchContentful(query_topPromoVideoId)
 
   const plan = planText[0].text
-  const philosophy = philosophyText[0].philosophy
-  const condition = conditionText[0].condition
-  const chartText = plan1ChartText[0].chartText
+  const { philosophy } = philosophyText[0]
+  const { condition } = conditionText[0]
+  const { chartText } = plan1ChartText[0]
   const applyAnnotation = applyAnnotationText[0].signinApply.annotation
-  const heroText = heroTexts[0].heroText
-  const applyText = items[0].applyText
+  const { heroText } = heroTexts[0]
+  const { applyText } = applyTextCollection[0]
+  const { vimeoId } = vimeoIdCollection[0]
 
   return {
     props: {
@@ -92,6 +94,7 @@ export const getStaticProps: GetStaticProps = async () => {
       heroImagesJa: heroImagesJaCollection[0].imageCollection.items,
       heroImagesEn: heroImagesEnCollection[0].imageCollection.items,
       applyText,
+      vimeoId,
     },
     revalidate: 30,
   }

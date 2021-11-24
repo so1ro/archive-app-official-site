@@ -69,6 +69,19 @@ export const query_topHeroImagesEn =
   }
 `
 
+export const query_topPromoVideoId =
+  `{
+    archiveAppTopPromotionVideoCollection {
+      items {
+        sys {
+          id
+        }
+        vimeoId
+      }
+    }
+  }
+`
+
 export const query_archiveTopPlan =
   `{
     archiveTopPlanCollection {
