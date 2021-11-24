@@ -7,10 +7,7 @@ import VideoVimeoLT from '@/components/VideoVimeoLT';
 import { useRouter } from 'next/router';
 
 export default function TopIntro() {
-
-    const avatarSize = { base: 36, lg: 48 }
     const { locale } = useRouter()
-
     return (
         <VideoVimeoLT vimeoId={locale === 'en' ? '529040008' : '529040008'} aspect={null} autoplay={false} borderRadius={12} />
     )
