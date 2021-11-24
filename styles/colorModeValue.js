@@ -1,7 +1,7 @@
 export const bg_color = { l: "#ffffff", d: "#1b272f" }
 export const bg_color_content = { l: "#ededed", d: "#1b272f" }
 export const bg_color_nav = { l: "#ffffff", d: "#1b272f" }
-export const bg_color_nav_top = { l: "rgba(255,255,255,0.68)", d: "rgba(27,39,47, 0.86)" }
+export const bg_color_nav_top = { l: "rgba(255,255,255,0.86)", d: "rgba(27,39,47, 0.86)" }
 export const text_color = { l: "gray.600", d: "white" }
 export const blur_text_color = { l: "rgba(74, 85, 104, 0.6)", d: "rgba(255,255,255, 0.6)" }
 export const text_highlight_color = { l: "#F57056", d: "#F7E420" }
