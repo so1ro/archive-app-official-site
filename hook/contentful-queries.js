@@ -35,6 +35,40 @@ export const query_topHeroText =
   }
 `
 
+export const query_topHeroImagesJa =
+  `{
+    archiveAppTopHeroImagesJaCollection {
+      items {
+        imageCollection {
+          items {
+            sys {
+              id
+            }
+            url
+          }
+        }
+      }
+    }
+  }
+`
+
+export const query_topHeroImagesEn =
+  `{
+    archiveAppTopHeroImagesEnCollection {
+      items {
+        imageCollection {
+          items {
+            sys {
+              id
+            }
+            url
+          }
+        }
+      }
+    }
+  }
+`
+
 export const query_archiveTopPlan =
   `{
     archiveTopPlanCollection {
@@ -99,3 +133,4 @@ export const query_topSigninApplyAnnotation =
     }
   }
 `
+

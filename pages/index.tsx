@@ -11,7 +11,9 @@ import {
   query_topChartText,
   query_topSigninApplyAnnotation,
   query_topHeroText,
-  query_applyText
+  query_applyText,
+  query_topHeroImagesJa,
+  query_topHeroImagesEn
 } from "@/hook/contentful-queries"
 
 import { Box, Container, VStack } from "@chakra-ui/react"
@@ -27,11 +29,11 @@ import ApplyForm from '@/components/ApplyForm'
 
 
 export default function Home(
-  { plan, philosophy, condition, chartText, applyAnnotation, heroText, applyText, }:
+  { plan, philosophy, condition, chartText, applyAnnotation, heroText, heroImagesJa, heroImagesEn, applyText, }:
     {
       plan: topPlanText, philosophy: topPhilosophyText, condition: topConditionText,
       chartText: topPlan1ChartText, applyAnnotation: topSigninApplyAnnotation, heroText: topHeroText,
-      applyText: applyText,
+      heroImagesJa: topHeroImages, heroImagesEn: topHeroImages, applyText: applyText,
     }
 ) {
 
@@ -41,7 +43,7 @@ export default function Home(
 
   return (
     <>
-      <Hero heroText={heroText[locale]} />
+      <Hero heroText={heroText[locale]} heroImages={locale === 'en' ? heroImagesEn : heroImagesJa} />
       <Philosophy text={philosophy[locale]} />
       <PageShell customPT={{ base: 24, lg: 32 }} customSpacing={null} >
         <TopIntro />
@@ -68,6 +70,8 @@ export const getStaticProps: GetStaticProps = async () => {
   const { archiveAppTopSignInApplyCollection: { items: applyAnnotationText } } = await fetchContentful(query_topSigninApplyAnnotation)
   const { archiveAppTopHeroCollection: { items: heroTexts } } = await fetchContentful(query_topHeroText)
   const { archiveAppApplyCollection: { items } } = await fetchContentful(query_applyText) // This is for fetching Annotation under the price list
+  const { archiveAppTopHeroImagesJaCollection: { items: heroImagesJaCollection } } = await fetchContentful(query_topHeroImagesJa)
+  const { archiveAppTopHeroImagesEnCollection: { items: heroImagesEnCollection } } = await fetchContentful(query_topHeroImagesEn)
 
   const plan = planText[0].text
   const philosophy = philosophyText[0].philosophy
@@ -85,6 +89,8 @@ export const getStaticProps: GetStaticProps = async () => {
       chartText,
       applyAnnotation,
       heroText,
+      heroImagesJa: heroImagesJaCollection[0].imageCollection.items,
+      heroImagesEn: heroImagesEnCollection[0].imageCollection.items,
       applyText,
     },
     revalidate: 30,

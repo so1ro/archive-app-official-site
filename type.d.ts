@@ -18,6 +18,10 @@ interface topHeroText {
   en?: string
   ja?: string
 }
+interface topHeroImages {
+  sys?: { id: string }
+  url?: string;
+}
 interface topPlanText {
   plan01?: object
   plan02?: object
