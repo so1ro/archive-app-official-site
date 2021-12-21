@@ -11,7 +11,7 @@ export default function SigninApplyButton({ buttonText, annotation }: { buttonTe
 
 	return (
 		<VStack align='center' spacing={6} py={12}>
-			<Box px={{ base: 10, sm: 12, lg: 16 }} py={{ base: 3, lg: 4 }} borderRadius={{ base: 12, lg: 16 }} fontSize={{ base: 20, lg: 24 }} fontWeight='semibold' textAlign='center' color={textColor} bgColor={buttonColor}>{buttonText}</Box>
+			<Box px={{ base: 10, sm: 12, lg: 16 }} py={{ base: 3, lg: 4 }} borderRadius={{ base: 12, lg: 16 }} fontSize={{ base: 'md', md: 22 }} fontWeight='semibold' textAlign='center' color={textColor} bgColor={buttonColor}>{buttonText}</Box>
 			<Text fontSize={['sm', 'sm', 'md']} color={annotationColor}>{annotation}</Text>
 		</VStack>
 	)

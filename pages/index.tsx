@@ -45,7 +45,7 @@ export default function Home(
     <>
       <Hero heroText={heroText[locale]} heroImages={locale === 'en' ? heroImagesEn : heroImagesJa} />
       <Philosophy text={philosophy[locale]} />
-      <PageShell customPT={{ base: 24, lg: 32 }} customSpacing={null} >
+      <PageShell customPT={{ base: 16, md: 12, lg: 24 }} customSpacing={{ base: 24, md: 36, lg: 48 }} >
         <VideoVimeoLT vimeoId={vimeoId[locale]} aspect={null} autoplay={false} borderRadius={12} />
         <Plan badge={plan.plan01[locale].badge} title={plan.plan01[locale].title} text={plan.plan01[locale].text} />
         <Box>
@@ -55,7 +55,7 @@ export default function Home(
         <Plan badge={plan.option[locale].badge} title={plan.option[locale].title} text={plan.option[locale].text} />
         {!isLoading && !user && <SigninApplyButton buttonText={locale === 'en' ? 'Sign in / Apply' : 'サインイン・お申し込み'} annotation={applyAnnotation[locale]} />}
         {!isLoading && user && <Box w='full' maxW='840px'><ApplyForm userEmail={user.email} auth0_UUID={user.sub} applyText={applyText} /></Box>}
-        {/* <Condition condition={condition} /> */}
+        <Condition condition={condition} />
       </PageShell>
     </>
   )

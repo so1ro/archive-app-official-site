@@ -14,13 +14,13 @@ export default function Condition({ condition }: { condition?: topConditionText 
 			{/* Title */}
 			<Text fontWeight='semibold' as='h4' mb={24} fontSize={['lg', 'lg', 'xl']}>{condition.title[locale]}</Text>
 			{/* Principal */}
-			{isHavingContent(condition.principal[locale]) && <Text fontSize={fontSize}>{condition.principal.copy[locale]}</Text>}
+			{isHavingContent(condition.principal[locale]) && <Text fontSize={fontSize} fontWeight='bold' borderBottom='1px dashed' pb={1.5}>{condition.principal.copy[locale]}</Text>}
 			{isHavingContent(condition.principal[locale]) && <CondtionList condition={condition.principal[locale]} />}
 			{/* Plan.1 */}
-			{isHavingContent(condition.plan01[locale]) && <Text fontSize={fontSize}>{condition.plan01.copy[locale]}</Text>}
+			{isHavingContent(condition.plan01[locale]) && <Text fontSize={fontSize} fontWeight='bold' borderBottom='1px dashed' pb={1.5}>{condition.plan01.copy[locale]}</Text>}
 			{isHavingContent(condition.plan01[locale]) && <CondtionList condition={condition.plan01[locale]} />}
 			{/* Plan.2 */}
-			{isHavingContent(condition.plan02[locale]) && <Text fontSize={fontSize}>{condition.plan02.copy[locale]}</Text>}
+			{isHavingContent(condition.plan02[locale]) && <Text fontSize={fontSize} fontWeight='bold' borderBottom='1px dashed' pb={1.5}>{condition.plan02.copy[locale]}</Text>}
 			{isHavingContent(condition.plan02[locale]) && <CondtionList condition={condition.plan02[locale]} />}
 		</Container>
 	)

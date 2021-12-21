@@ -22,7 +22,7 @@ export default function Plan({ badge, title, text }: { badge?: string, title?: s
 				</Flex>
 				<Box fontSize={['xl', 'xl', '2xl']} fontWeight='bold' as='h3'>{title}</Box>
 			</Stack>
-			<Text lineHeight={8} fontSize={['md', 'md', 'lg']} fontWeight='normal'>{text}</Text>
+			<Text lineHeight={8} fontSize={['sm', 'md', 'lg']} fontWeight='normal'>{text}</Text>
 		</Box>
 	)
 }

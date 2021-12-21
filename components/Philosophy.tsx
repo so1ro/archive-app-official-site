@@ -6,10 +6,11 @@ export default function Philosophy({ text }: { text?: string[] }) {
 	const isLargerThan768 = useMediaQuery("(min-width: 768px)")
 	const regex = new RegExp(/\n/, 'gi')
 	const newLineText = isLargerThan768 ? text.map(t => t.replace(regex, '')) : text
+	const commonPd = { base: 6, md: 12, lg: 24 }
 
 	return (
 		<UnorderedList
-			px={6} pt={24} pb={24} spacing={5}
+			px={6} pt={commonPd} pb={commonPd} spacing={5}
 			listStyleType='none'
 			textAlign='center'
 			fontSize={['md', 'xl', '2xl']}

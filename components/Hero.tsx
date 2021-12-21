@@ -15,7 +15,7 @@ export default function Hero({ heroText, heroImages }) {
     return (
         <Box
             pos='relative' overflow='hidden'
-            bg={`linear-gradient(180deg, rgba(255,255,255,0) ${colorMode === 'light' ? '60%' : '70%'}, rgba(${colorMode === 'light' ? '246,153,87' : '255,255,255'}, 0.24) 100%)`} h={height}>
+            bg={`linear-gradient(180deg, rgba(255,255,255,0) ${colorMode === 'light' ? '60%' : '70%'}, rgba(${colorMode === 'light' ? '246,153,87' : '255,255,255'}, 0.48) 100%)`} h={height}>
             <Box as='h2'
                 d={{ base: 'none', md: 'block' }}
                 fontSize={{ base: '48px', lg: '64px', '2xl': '72px' }}
